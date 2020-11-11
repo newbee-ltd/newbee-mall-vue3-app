@@ -20,30 +20,30 @@
         <i class="iconfont icon-More"></i>
       </header>
       <nav-bar></nav-bar>
-      <div class="search-wrap" ref="searchWrap">
+      <div ref="searchWrap" class="search-wrap">
         <list-scroll :scroll-data="categoryData" class="nav-side-wrapper">
           <ul class="nav-side">
             <li
               v-for="item in categoryData"
               :key="item.categoryId"
-              v-text="item.categoryName"
               :class="{'active' : currentIndex == item.categoryId}"
               @click="selectMenu(item.categoryId)"
+              v-text="item.categoryName"
             ></li>
           </ul>
         </list-scroll>
         <div class="search-content">
-          <list-scroll :scroll-data="categoryData" >
+          <list-scroll :scroll-data="categoryData">
             <div class="swiper-container">
               <div class="swiper-wrapper">
                 <template v-for="(category, index) in categoryData">
-                  <div class="swiper-slide" v-if="currentIndex == category.categoryId" :key="index">
+                  <div v-if="currentIndex == category.categoryId" :key="index" class="swiper-slide">
                     <!-- <img class="category-main-img" :src="category.mainImgUrl" v-if="category.mainImgUrl"/> -->
-                    <div class="category-list" v-for="(products, index) in category.secondLevelCategoryVOS" :key="index">
-                      <p class="catogory-title">{{products.categoryName}}</p>
-                      <div class="product-item" v-for="(product, index) in products.thirdLevelCategoryVOS" :key="index" @click="selectProduct(product)">
-                        <img src="//s.weituibao.com/1583591077131/%E5%88%86%E7%B1%BB.png" class="product-img"/>
-                        <p v-text="product.categoryName" class="product-title"></p>
+                    <div v-for="(products, index1) in category.secondLevelCategoryVOS" :key="index1" class="category-list">
+                      <p class="catogory-title">{{ products.categoryName }}</p>
+                      <div v-for="(product, index2) in products.thirdLevelCategoryVOS" :key="index2" class="product-item" @click="selectProduct(product)">
+                        <img src="//s.weituibao.com/1583591077131/%E5%88%86%E7%B1%BB.png" class="product-img" />
+                        <p class="product-title" v-text="product.categoryName"></p>
                       </div>
                     </div>
                   </div>
@@ -62,7 +62,7 @@ import { reactive, onMounted, ref, toRefs } from 'vue'
 import { useRouter } from 'vue-router'
 import navBar from '@/components/NavBar'
 import listScroll from '@/components/ListScroll'
-import { getCategory } from "@/service/good";
+import { getCategory } from '@/service/good'
 import { Toast } from 'vant'
 export default {
   components: {
@@ -78,8 +78,8 @@ export default {
       currentIndex: 15
     })
 
-    onMounted(async () => {
-      let $screenHeight = document.documentElement.clientHeight
+    onMounted(async() => {
+      const $screenHeight = document.documentElement.clientHeight
       console.log('searchWrap.value', searchWrap.value)
       searchWrap.value.style.height = $screenHeight - 100 + 'px'
       Toast.loading('加载中...')

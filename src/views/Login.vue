@@ -30,11 +30,11 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
         <van-field
+          v-model="verify"
           center
           clearable
           label="验证码"
           placeholder="输入验证码"
-          v-model="verify"
         >
           <template #button>
             <vue-img-verify ref="verifyRef" />
@@ -64,11 +64,11 @@
           :rules="[{ required: true, message: '请填写密码' }]"
         />
         <van-field
+          v-model="verify"
           center
           clearable
           label="验证码"
           placeholder="输入验证码"
-          v-model="verify"
         >
           <template #button>
             <vue-img-verify ref="verifyRef" />
@@ -92,6 +92,10 @@ import { setLocal } from '@/common/js/utils'
 import md5 from 'js-md5'
 import { Toast } from 'vant'
 export default {
+  components: {
+    sHeader,
+    vueImgVerify
+  },
   setup() {
     const verifyRef = ref(null)
     const state = reactive({
@@ -111,25 +115,25 @@ export default {
     }
 
     // 提交登录或注册表单
-    const onSubmit = async (values) => {
+    const onSubmit = async(values) => {
       console.log('verifyRef.value.imgCode', verifyRef.value.imgCode)
       state.imgCode = verifyRef.value.imgCode || ''
-      if (state.verify.toLowerCase() != state.imgCode.toLowerCase()) {
+      if (state.verify.toLowerCase() !== state.imgCode.toLowerCase()) {
         Toast.fail('验证码有误')
         return
       }
-      if (state.type == 'login') {
+      if (state.type === 'login') {
         const { data } = await login({
-          "loginName": values.username,
-          "passwordMd5": md5(values.password)
+          'loginName': values.username,
+          'passwordMd5': md5(values.password)
         })
         setLocal('token', data)
         // 需要刷新页面，否则 axios.js 文件里的 token 不会被重置
         window.location.href = '/'
       } else {
         await register({
-          "loginName": values.username1,
-          "password": values.password1
+          'loginName': values.username1,
+          'password': values.password1
         })
         Toast.success('注册成功')
         state.type = 'login'
@@ -143,10 +147,6 @@ export default {
       onSubmit,
       verifyRef
     }
-  },
-  components: {
-    sHeader,
-    vueImgVerify
   }
 }
 </script>

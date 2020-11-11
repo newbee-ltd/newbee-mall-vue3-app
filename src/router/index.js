@@ -14,9 +14,6 @@ import AddressEdit from '../views/AddressEdit.vue'
 import Order from '../views/Order.vue'
 import OrderDetail from '../views/OrderDetail.vue'
 
-
-
-
 const router = createRouter({
   history: createWebHashHistory(), // hash模式：createWebHashHistory，history模式：createWebHistory
   routes: [
@@ -43,7 +40,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: About, 
+      component: About,
       meta: {
         index: 2
       }
@@ -135,7 +132,7 @@ const router = createRouter({
         index: 3
       },
       component: AddressEdit
-    },
+    }
   ]
 })
 

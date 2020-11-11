@@ -22,7 +22,7 @@
       <van-icon class="arrow" name="arrow" />
     </div>
     <div class="good">
-      <div class="good-item" v-for="(item, index) in cartList" :key="index">
+      <div v-for="(item, index) in cartList" :key="index" class="good-item">
         <div class="good-img"><img :src="$filters.prefix(item.goodsCoverImg)" alt=""></div>
         <div class="good-desc">
           <div class="good-title">
@@ -40,12 +40,12 @@
         <span>商品金额</span>
         <span>¥{{ total }}</span>
       </div>
-      <van-button @click="handleCreateOrder" class="pay-btn" color="#1baeae" type="primary" block>生成订单</van-button>
+      <van-button class="pay-btn" color="#1baeae" type="primary" block @click="handleCreateOrder">生成订单</van-button>
     </div>
     <van-popup
+      v-model="showPay"
       closeable
       :close-on-click-overlay="false"
-      v-model:show="showPay"
       position="bottom"
       :style="{ height: '30%' }"
       @close="close"
@@ -85,9 +85,9 @@ export default {
     onMounted(() => {
       init()
     })
-    
-    const init = async () => {
-      Toast.loading({ message: '加载中...', forbidClick: true });
+
+    const init = async() => {
+      Toast.loading({ message: '加载中...', forbidClick: true })
       const { addressId, cartItemIds } = route.query
       const _cartItemIds = cartItemIds ? JSON.parse(cartItemIds) : JSON.parse(getLocal('cartItemIds'))
       console.log('cartItemIds', cartItemIds)
@@ -104,14 +104,14 @@ export default {
     }
 
     const goTo = () => {
-      router.push({ path: '/address', query: { cartItemIds: JSON.stringify(state.cartItemIds), from: 'create-order' }})
+      router.push({ path: '/address', query: { cartItemIds: JSON.stringify(state.cartItemIds), from: 'create-order' } })
     }
 
     const deleteLocal = () => {
       setLocal('cartItemIds', '')
     }
 
-    const handleCreateOrder = async () => {
+    const handleCreateOrder = async() => {
       const params = {
         addressId: state.address.addressId,
         cartItemIds: state.cartList.map(item => item.cartItemId)
@@ -126,7 +126,7 @@ export default {
       router.push({ path: '/order' })
     }
 
-    const handlePayOrder = async (type) => {
+    const handlePayOrder = async(type) => {
       await payOrder({ orderNo: state.orderNo, payType: type })
       Toast.success('支付成功')
       setTimeout(() => {

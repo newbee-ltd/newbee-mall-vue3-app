@@ -13,7 +13,7 @@
     <s-header :name="'我的'"></s-header>
     <div class="user-info">
       <div class="info">
-        <img src="//s.yezgea02.com/1604040746310/aaaddd.png"/>
+        <img src="//s.yezgea02.com/1604040746310/aaaddd.png" />
         <div class="user-desc">
           <span>昵称：{{ user.nickName }}</span>
           <span>登录名：{{ user.loginName }}</span>
@@ -60,7 +60,7 @@ export default {
       user: {}
     })
 
-    onMounted(async () => {
+    onMounted(async() => {
       const { data } = await getUserInfo()
       state.user = data
     })

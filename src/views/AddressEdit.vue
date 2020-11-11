@@ -53,16 +53,16 @@ export default {
       from: route.query.from
     })
 
-    onMounted(async () => {
+    onMounted(async() => {
       // 省市区列表构造
-      let _province_list = {}
-      let _city_list = {}
-      let _county_list = {}
+      const _province_list = {}
+      const _city_list = {}
+      const _county_list = {}
       tdist.getLev1().forEach(p => {
         _province_list[p.id] = p.text
         tdist.getLev2(p.id).forEach(c => {
           _city_list[c.id] = c.text
-          tdist.getLev3(c.id).forEach(q => _county_list[q.id] = q.text)
+          tdist.getLev3(c.id).forEach(q => { _county_list[q.id] = q.text })
         })
       })
       state.areaList.province_list = _province_list
@@ -73,20 +73,20 @@ export default {
       state.addressId = addressId
       state.type = type
       state.from = from || ''
-      if (type == 'edit') {
+      if (type === 'edit') {
         const { data: addressDetail } = await getAddressDetail(addressId)
         let _areaCode = ''
         const province = tdist.getLev1()
         Object.entries(state.areaList.county_list).forEach(([id, text]) => {
           // 先找出当前对应的区
-          if (text == addressDetail.regionName) {
+          if (text === addressDetail.regionName) {
             // 找到区对应的几个省份
-            const provinceIndex = province.findIndex(item => item.id.substr(0, 2) == id.substr(0, 2))
+            const provinceIndex = province.findIndex(item => item.id.substr(0, 2) === id.substr(0, 2))
             // 找到区对应的几个市区
             // eslint-disable-next-line no-unused-vars
-            const cityItem = Object.entries(state.areaList.city_list).filter(([cityId, cityName]) => cityId.substr(0, 4) == id.substr(0, 4))[0]
+            const cityItem = Object.entries(state.areaList.city_list).filter(([cityId, cityName]) => cityId.substr(0, 4) === id.substr(0, 4))[0]
             // 对比找到的省份和接口返回的省份是否相等，因为有一些区会重名
-            if (province[provinceIndex].text == addressDetail.provinceName && cityItem[1] == addressDetail.cityName) {
+            if (province[provinceIndex].text === addressDetail.provinceName && cityItem[1] === addressDetail.cityName) {
               _areaCode = id
             }
           }
@@ -105,7 +105,7 @@ export default {
       }
     })
 
-    const onSave = async (content) => {
+    const onSave = async(content) => {
       const params = {
         userName: content.name,
         userPhone: content.tel,
@@ -113,19 +113,19 @@ export default {
         cityName: content.city,
         regionName: content.county,
         detailAddress: content.addressDetail,
-        defaultFlag: content.isDefault ? 1 : 0,
+        defaultFlag: content.isDefault ? 1 : 0
       }
-      if (state.type == 'edit') {
+      if (state.type === 'edit') {
         params['addressId'] = state.addressId
       }
-      await state.type == 'add' ? addAddress(params) : EditAddress(params)
+      await state.type === 'add' ? addAddress(params) : EditAddress(params)
       Toast('保存成功')
       setTimeout(() => {
         router.back()
       }, 1000)
     }
 
-    const onDelete = async () => {
+    const onDelete = async() => {
       await DeleteAddress(state.addressId)
       Toast('删除成功')
       setTimeout(() => {

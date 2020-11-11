@@ -10,7 +10,7 @@
 
 <template>
   <div id="app">
-    <router-view class="router-view" v-slot="{ Component }">
+    <router-view v-slot="{ Component }" class="router-view">
       <transition :name="transitionName">
         <component :is="Component" />
       </transition>
@@ -19,26 +19,26 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
-        transitionName: 'slide-left'
-      }
-    },
-    watch: {
-      $route(to, from) {
-        // 有主级到次级
-        if (to.meta.index > from.meta.index) {
-          this.transitionName = 'slide-left' // 向左滑动
-        } else if (to.meta.index < from.meta.index) {
-          // 由次级到主级
-          this.transitionName = 'slide-right'
-        } else {
-          this.transitionName = ''   //同级无过渡效果
-        }
+export default {
+  data() {
+    return {
+      transitionName: 'slide-left'
+    }
+  },
+  watch: {
+    $route(to, from) {
+      // 有主级到次级
+      if (to.meta.index > from.meta.index) {
+        this.transitionName = 'slide-left' // 向左滑动
+      } else if (to.meta.index < from.meta.index) {
+        // 由次级到主级
+        this.transitionName = 'slide-right'
+      } else {
+        this.transitionName = '' // 同级无过渡效果
       }
     }
   }
+}
 </script>
 
 <style lang="less">

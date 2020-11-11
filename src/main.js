@@ -4,7 +4,7 @@ import App from './App.vue'
 import store from './store'
 import router from './router'
 import 'lib-flexible/flexible'
-import 'vant/lib/index.css'; // 全局引入样式
+import 'vant/lib/index.css' // 全局引入样式
 
 const app = createApp(App) // 创建实例
 

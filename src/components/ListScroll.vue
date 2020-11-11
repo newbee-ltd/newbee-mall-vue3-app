@@ -82,12 +82,12 @@ export default {
         click: true
       })
       this.bs.on('scroll', () => {
-          console.log('scrolling-')
-        })
-        this.bs.on('scrollEnd', () => {
-          console.log('scrollingEnd')
-        })
-    } 
+        console.log('scrolling-')
+      })
+      this.bs.on('scrollEnd', () => {
+        console.log('scrollingEnd')
+      })
+    }
   }
 }
 </script>

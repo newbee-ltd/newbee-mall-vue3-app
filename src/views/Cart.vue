@@ -12,8 +12,8 @@
   <div class="cart-box">
     <s-header :name="'购物车'"></s-header>
     <div class="cart-body">
-      <van-checkbox-group @change="groupChange" v-model="result" ref="checkboxGroup">
-        <van-swipe-cell :right-width="50" v-for="(item, index) in list" :key="index">
+      <van-checkbox-group ref="checkboxGroup" v-model="result" @change="groupChange">
+        <van-swipe-cell v-for="(item, index) in list" :key="index" :right-width="50">
           <div class="good-item">
             <van-checkbox :name="item.cartItemId" />
             <div class="good-img"><img :src="$filters.prefix(item.goodsCoverImg)" alt=""></div>
@@ -55,12 +55,12 @@
       button-text="结算"
       @submit="onSubmit"
     >
-      <van-checkbox @click="allCheck" v-model:checked="checkAll">全选</van-checkbox>
+      <van-checkbox v-model="checkAll" @click="allCheck">全选</van-checkbox>
     </van-submit-bar>
-    <div class="empty" v-if="!list.length">
+    <div v-if="!list.length" class="empty">
       <img class="empty-cart" src="//s.yezgea02.com/1604028375097/empty-car.png" alt="空购物车">
       <div class="title">购物车空空如也</div>
-      <van-button round color="#1baeae" type="primary" @click="goTo" block>前往选购</van-button>
+      <van-button round color="#1baeae" type="primary" block @click="goTo">前往选购</van-button>
     </div>
     <nav-bar></nav-bar>
   </div>
@@ -95,8 +95,8 @@ export default {
       init()
     })
 
-    const init = async () => {
-      Toast.loading({ message: '加载中...', forbidClick: true });
+    const init = async() => {
+      Toast.loading({ message: '加载中...', forbidClick: true })
       const { data } = await getCart({ pageNumber: 1 })
       state.list = data
       state.result = data.map(item => item.cartItemId)
@@ -105,7 +105,7 @@ export default {
 
     const total = computed(() => {
       let sum = 0
-      let _list = state.list.filter(item => state.result.includes(item.cartItemId))
+      const _list = state.list.filter(item => state.result.includes(item.cartItemId))
       _list.forEach(item => {
         sum += item.goodsCount * item.sellingPrice
       })
@@ -120,7 +120,7 @@ export default {
       router.push({ path: '/home' })
     }
 
-    const onChange = async (value, detail) => {
+    const onChange = async(value, detail) => {
       if (value > 5) {
         Toast.fail('超出单个商品的最大购买数量')
         return
@@ -129,23 +129,23 @@ export default {
         Toast.fail('商品不得小于0')
         return
       }
-      if (state.list.filter(item => item.cartItemId == detail.name)[0].goodsCount == value) return
-      Toast.loading({ message: '修改中...', forbidClick: true });
+      if (state.list.filter(item => item.cartItemId === detail.name)[0].goodsCount === value) return
+      Toast.loading({ message: '修改中...', forbidClick: true })
       const params = {
         cartItemId: detail.name,
         goodsCount: value
       }
       await modifyCart(params)
       state.list.forEach(item => {
-        if (item.cartItemId == detail.name) {
+        if (item.cartItemId === detail.name) {
           item.goodsCount = value
         }
       })
-      Toast.clear();
+      Toast.clear()
     }
 
-    const onSubmit = async () => {
-      if (state.result.length == 0) {
+    const onSubmit = async() => {
+      if (state.result.length === 0) {
         Toast.fail('请选择商品进行结算')
         return
       }
@@ -153,7 +153,7 @@ export default {
       router.push({ path: '/create-order', query: { cartItemIds: params } })
     }
 
-    const deleteGood = async (id) => {
+    const deleteGood = async(id) => {
       await deleteCartItem(id)
       store.dispatch('updateCart')
       init()
@@ -161,7 +161,7 @@ export default {
 
     const groupChange = (result) => {
       console.log(1)
-      if (result.length == state.list.length) {
+      if (result.length === state.list.length) {
         console.log(2)
         state.checkAll = true
       } else {
@@ -170,7 +170,7 @@ export default {
       }
       state.result = result
     }
-    
+
     const allCheck = () => {
       if (!state.checkAll) {
         state.result = state.list.map(item => item.cartItemId)
@@ -178,8 +178,6 @@ export default {
         state.result = []
       }
     }
-
-    
 
     return {
       ...toRefs(state),

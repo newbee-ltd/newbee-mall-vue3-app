@@ -49,7 +49,7 @@
       :thumb="$filters.prefix(item.goodsCoverImg)"
     />
     <van-popup
-      v-model:show="showPay"
+      v-model="showPay"
       position="bottom"
       :style="{ height: '24%' }"
     >
@@ -83,11 +83,11 @@ export default {
       init()
     })
 
-    const init = async () => {
+    const init = async() => {
       Toast.loading({
         message: '加载中...',
         forbidClick: true
-      });
+      })
       const { id } = route.query
       const { data } = await getOrderDetail(id)
       state.detail = data
@@ -96,39 +96,39 @@ export default {
 
     const handleCancelOrder = (id) => {
       Dialog.confirm({
-        title: '确认取消订单？',
+        title: '确认取消订单？'
       }).then(() => {
         cancelOrder(id).then(res => {
-          if (res.resultCode == 200) {
+          if (res.resultCode === 200) {
             Toast('删除成功')
             init()
           }
         })
       }).catch(() => {
         // on cancel
-      });
+      })
     }
 
     const handleConfirmOrder = (id) => {
       Dialog.confirm({
-        title: '是否确认订单？',
+        title: '是否确认订单？'
       }).then(() => {
         confirmOrder(id).then(res => {
-          if (res.resultCode == 200) {
+          if (res.resultCode === 200) {
             Toast('确认成功')
             init()
           }
         })
       }).catch(() => {
         // on cancel
-      });
+      })
     }
 
     const showPayFn = () => {
       state.showPay = true
     }
 
-    const handlePayOrder = async (id, type) => {
+    const handlePayOrder = async(id, type) => {
       Toast.loading
       await payOrder({ orderNo: id, payType: type })
       state.showPay = false
@@ -147,7 +147,6 @@ export default {
       handlePayOrder,
       close
     }
-
   }
 }
 </script>

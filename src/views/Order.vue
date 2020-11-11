@@ -11,8 +11,8 @@
 <template>
   <div class="order-box">
     <s-header :name="'我的订单'" :back="'/user'"></s-header>
-    <van-tabs @click="onChangeTab" :color="'#1baeae'" :title-active-color="'#1baeae'" class="order-tab" v-model="status">
-      <van-tab title="全部" name=''></van-tab>
+    <van-tabs v-model="status" :color="'#1baeae'" :title-active-color="'#1baeae'" class="order-tab" @click="onChangeTab">
+      <van-tab title="全部" name=""></van-tab>
       <van-tab title="待付款" name="0"></van-tab>
       <van-tab title="待确认" name="1"></van-tab>
       <van-tab title="待发货" name="2"></van-tab>
@@ -20,9 +20,9 @@
       <van-tab title="交易完成" name="4"></van-tab>
     </van-tabs>
     <div class="content">
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh" class="order-list-refresh">
+      <van-pull-refresh v-model="refreshing" class="order-list-refresh" @refresh="onRefresh">
         <van-list
-          v-model:loading="loading"
+          v-model="loading"
           :finished="finished"
           finished-text="没有更多了"
           @load="onLoad"
@@ -50,10 +50,10 @@
 </template>
 
 <script>
-import { reactive, toRefs } from 'vue';
+import { reactive, toRefs } from 'vue'
 import sHeader from '@/components/SimpleHeader'
 import { getOrderList } from '@/service/order'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Order',
@@ -72,11 +72,11 @@ export default {
       totalPage: 0
     })
 
-    const loadData = async () => {
+    const loadData = async() => {
       const { data, data: { list } } = await getOrderList({ pageNumber: state.page, status: state.status })
       state.list = state.list.concat(list)
       state.totalPage = data.totalPage
-      state.loading = false;
+      state.loading = false
       if (state.page >= data.totalPage) state.finished = true
     }
 
@@ -101,8 +101,8 @@ export default {
         state.page = state.page + 1
       }
       if (state.refreshing) {
-        state.list = [];
-        state.refreshing = false;
+        state.list = []
+        state.refreshing = false
       }
       loadData()
     }
@@ -158,7 +158,7 @@ export default {
     .content {
       height: calc(~"(100vh - 70px)");
       overflow: hidden;
-      overflow-y: scroll; 
+      overflow-y: scroll;
       margin-top: 78px;
     }
     .order-list-refresh {

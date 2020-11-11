@@ -14,10 +14,10 @@
     <div class="input-item">
       <van-field v-model="nickName" label="昵称" />
       <van-field v-model="introduceSign" label="个性签名" />
-      <van-field v-model="password" type='password' label="修改密码" />
+      <van-field v-model="password" type="password" label="修改密码" />
     </div>
-    <van-button round class="save-btn" color="#1baeae" type="primary" @click="save" block>保存</van-button>
-    <van-button round class="save-btn" color="#1baeae" type="primary" @click="handleLogout" block>退出登录</van-button>
+    <van-button round class="save-btn" color="#1baeae" type="primary" block @click="save">保存</van-button>
+    <van-button round class="save-btn" color="#1baeae" type="primary" block @click="handleLogout">退出登录</van-button>
   </div>
 </template>
 
@@ -39,27 +39,27 @@ export default {
       password: ''
     })
 
-    onMounted(async () => {
+    onMounted(async() => {
       const { data } = await getUserInfo()
       state.nickName = data.nickName
       state.introduceSign = data.introduceSign
     })
 
-    const save = async () => {
+    const save = async() => {
       const params = {
         introduceSign: state.introduceSign,
         nickName: state.nickName
       }
       if (state.password) {
         params.passwordMd5 = md5(state.password)
-      } 
+      }
       await EditUserInfo(params)
       Toast.success('保存成功')
     }
 
-    const handleLogout = async () => {
+    const handleLogout = async() => {
       const { resultCode } = await logout()
-      if (resultCode == 200) {
+      if (resultCode === 200) {
         setLocal('token', '')
         window.location.href = '/home'
       }

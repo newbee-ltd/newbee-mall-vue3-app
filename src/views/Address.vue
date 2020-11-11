@@ -50,7 +50,7 @@ export default {
       from: route.query.from
     })
 
-    onMounted(async () => {
+    onMounted(async() => {
       const { data } = await getAddressList()
       if (!data) {
         state.list = []
@@ -68,15 +68,15 @@ export default {
     })
 
     const onAdd = () => {
-      router.push({ path: '/address-edit', query: { type: 'add', from: state.from }})
+      router.push({ path: '/address-edit', query: { type: 'add', from: state.from } })
     }
 
     const onEdit = (item) => {
-      router.push({ path: 'address-edit', query: { type: 'edit', addressId: item.id, from: state.from }})
+      router.push({ path: 'address-edit', query: { type: 'edit', addressId: item.id, from: state.from } })
     }
 
     const select = (item) => {
-      router.push({ path: 'create-order', query: { addressId: item.id, from: state.from }})
+      router.push({ path: 'create-order', query: { addressId: item.id, from: state.from } })
     }
 
     return {

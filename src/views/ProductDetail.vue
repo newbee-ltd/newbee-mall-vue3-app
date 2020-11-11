@@ -41,9 +41,9 @@
     </div>
     <van-action-bar>
       <van-action-bar-icon icon="chat-o" text="客服" />
-      <van-action-bar-icon icon="cart-o" :badge="!count ? '' : count" @click="goTo()" text="购物车" />
-      <van-action-bar-button type="warning" @click="handleAddCart" text="加入购物车" />
-      <van-action-bar-button type="danger" @click="goToCart" text="立即购买" />
+      <van-action-bar-icon icon="cart-o" :badge="!count ? '' : count" text="购物车" @click="goTo()" />
+      <van-action-bar-button type="warning" text="加入购物车" @click="handleAddCart" />
+      <van-action-bar-button type="danger" text="立即购买" @click="goToCart" />
     </van-action-bar>
   </div>
 </template>
@@ -58,6 +58,9 @@ import sHeader from '@/components/SimpleHeader'
 import { Toast } from 'vant'
 import { prefix } from '@/common/js/utils'
 export default {
+  components: {
+    sHeader
+  },
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -69,7 +72,7 @@ export default {
       }
     })
 
-    onMounted(async () => {
+    onMounted(async() => {
       const { id } = route.params
       const { data } = await getDetail(id)
       data.goodsCarouselList = data.goodsCarouselList.map(i => prefix(i))
@@ -91,13 +94,13 @@ export default {
       router.push({ path: '/cart' })
     }
 
-    const handleAddCart = async () => {
+    const handleAddCart = async() => {
       const { resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
-      if (resultCode == 200 ) Toast.success('添加成功')
+      if (resultCode === 200) Toast.success('添加成功')
       store.dispatch('updateCart')
     }
 
-    const goToCart = async () => {
+    const goToCart = async() => {
       await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
       store.dispatch('updateCart')
       router.push({ path: '/cart' })
@@ -116,9 +119,6 @@ export default {
       goToCart,
       count
     }
-  },
-  components: {
-    sHeader
   }
 }
 </script>

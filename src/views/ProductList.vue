@@ -16,22 +16,23 @@
         <div class="header-search">
           <i class="nbicon nbSearch"></i>
           <input
+            v-model="keyword"
             type="text"
             class="search-title"
-            v-model="keyword"/>
+          />
         </div>
         <span class="search-btn" @click="getSearch">搜索</span>
       </header>
-      <van-tabs type="card" color="#1baeae" @click="changeTab" >
+      <van-tabs type="card" color="#1baeae" @click="changeTab">
         <van-tab title="推荐" name=""></van-tab>
         <van-tab title="新品" name="new"></van-tab>
         <van-tab title="价格" name="price"></van-tab>
       </van-tabs>
     </div>
     <div class="content">
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh" class="product-list-refresh">
+      <van-pull-refresh v-model="refreshing" class="product-list-refresh" @refresh="onRefresh">
         <van-list
-          v-model:loading="loading"
+          v-model="loading"
           :finished="finished"
           :finished-text="productList.length ? '没有更多了' : '搜索想要的商品'"
           @load="onLoad"
@@ -39,16 +40,16 @@
         >
           <!-- <p v-for="item in list" :key="item">{{ item }}</p> -->
           <template v-if="productList.length">
-            <div class="product-item" v-for="(item, index) in productList" :key="index" @click="productDetail(item)">
+            <div v-for="(item, index) in productList" :key="index" class="product-item" @click="productDetail(item)">
               <img :src="$filters.prefix(item.goodsCoverImg)" />
               <div class="product-info">
-                <p class="name">{{item.goodsName}}</p>
-                <p class="subtitle">{{item.goodsIntro}}</p>
-                <span class="price">￥ {{item.sellingPrice}}</span>
+                <p class="name">{{ item.goodsName }}</p>
+                <p class="subtitle">{{ item.goodsIntro }}</p>
+                <span class="price">￥ {{ item.sellingPrice }}</span>
               </div>
             </div>
           </template>
-          <img class="empty" v-else src="//s.yezgea02.com/1604041313083/kesrtd.png" alt="搜索">
+          <img v-else class="empty" src="//s.yezgea02.com/1604041313083/kesrtd.png" alt="搜索">
         </van-list>
       </van-pull-refresh>
     </div>
@@ -81,19 +82,19 @@ export default {
     //   init()
     // })
 
-    const init = async () => {
+    const init = async() => {
       const { categoryId } = route.query
       if (!categoryId && !state.keyword) {
         // Toast.fail('请输入关键词')
         state.finished = true
-        state.loading = false;
+        state.loading = false
         return
       }
       const { data, data: { list } } = await search({ pageNumber: state.page, goodsCategoryId: categoryId, keyword: state.keyword, orderBy: state.orderBy })
-      
+
       state.productList = state.productList.concat(list)
       state.totalPage = data.totalPage
-      state.loading = false;
+      state.loading = false
       if (state.page >= data.totalPage) state.finished = true
     }
 
@@ -114,8 +115,8 @@ export default {
         state.page = state.page + 1
       }
       if (state.refreshing) {
-        state.productList = [];
-        state.refreshing = false;
+        state.productList = []
+        state.refreshing = false
       }
       init()
     }
@@ -211,7 +212,7 @@ export default {
   .content {
     height: calc(~"(100vh - 70px)");
     overflow: hidden;
-    overflow-y: scroll; 
+    overflow-y: scroll;
     margin-top: 78px;
   }
   .product-list-refresh {
