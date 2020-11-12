@@ -32,7 +32,7 @@
     <div class="content">
       <van-pull-refresh v-model="refreshing" class="product-list-refresh" @refresh="onRefresh">
         <van-list
-          v-model="loading"
+          v-model:loading="loading"
           :finished="finished"
           :finished-text="productList.length ? '没有更多了' : '搜索想要的商品'"
           @load="onLoad"

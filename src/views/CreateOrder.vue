@@ -43,7 +43,7 @@
       <van-button class="pay-btn" color="#1baeae" type="primary" block @click="handleCreateOrder">生成订单</van-button>
     </div>
     <van-popup
-      v-model="showPay"
+      v-model:show="showPay"
       closeable
       :close-on-click-overlay="false"
       position="bottom"

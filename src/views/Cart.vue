@@ -55,7 +55,7 @@
       button-text="结算"
       @submit="onSubmit"
     >
-      <van-checkbox v-model="checkAll" @click="allCheck">全选</van-checkbox>
+      <van-checkbox v-model:checked="checkAll" @click="allCheck">全选</van-checkbox>
     </van-submit-bar>
     <div v-if="!list.length" class="empty">
       <img class="empty-cart" src="//s.yezgea02.com/1604028375097/empty-car.png" alt="空购物车">

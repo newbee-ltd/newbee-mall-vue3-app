@@ -49,7 +49,7 @@
       :thumb="$filters.prefix(item.goodsCoverImg)"
     />
     <van-popup
-      v-model="showPay"
+      v-model:show="showPay"
       position="bottom"
       :style="{ height: '24%' }"
     >

@@ -22,7 +22,7 @@
     <div class="content">
       <van-pull-refresh v-model="refreshing" class="order-list-refresh" @refresh="onRefresh">
         <van-list
-          v-model="loading"
+          v-model:loading="loading"
           :finished="finished"
           finished-text="没有更多了"
           @load="onLoad"

@@ -23,6 +23,7 @@ module.exports = {
       }
     }],
     "vue/html-self-closing": 0,
+    "vue/no-v-model-argument": 0,
     "vue/require-default-prop": 0,
     "vue/singleline-html-element-content-newline": "off",
     "vue/multiline-html-element-content-newline":"off",
