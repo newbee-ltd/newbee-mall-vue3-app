@@ -108,7 +108,7 @@ const router = createRouter({
       path: '/user',
       name: 'user',
       meta: {
-        index: 2
+        index: 1
       },
       component: User
     },
