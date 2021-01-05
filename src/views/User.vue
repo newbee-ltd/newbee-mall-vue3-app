@@ -10,7 +10,7 @@
 
 <template>
   <div class="user-box">
-    <s-header :name="'我的'"></s-header>
+    <s-header :name="'我的'" :noback="true"></s-header>
     <div class="user-info">
       <div class="info">
         <img src="//s.yezgea02.com/1604040746310/aaaddd.png"/>

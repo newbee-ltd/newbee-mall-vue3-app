@@ -19,23 +19,27 @@
 </template>
 
 <script>
+import { reactive, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
   export default {
-    data () {
-      return {
+    setup() {
+      const router = useRouter()
+      const state = reactive({
         transitionName: 'slide-left'
-      }
-    },
-    watch: {
-      $route(to, from) {
-        // 有主级到次级
+      })
+      router.beforeEach((to, from) => {
         if (to.meta.index > from.meta.index) {
-          this.transitionName = 'slide-left' // 向左滑动
+          state.transitionName = 'slide-left' // 向左滑动
         } else if (to.meta.index < from.meta.index) {
           // 由次级到主级
-          this.transitionName = 'slide-right'
+          state.transitionName = 'slide-right'
         } else {
-          this.transitionName = ''   //同级无过渡效果
+          state.transitionName = ''   // 同级无过渡效果
         }
+      })
+
+      return {
+        ...toRefs(state)
       }
     }
   }

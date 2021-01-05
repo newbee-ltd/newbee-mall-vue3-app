@@ -10,7 +10,7 @@
 
 <template>
   <div class="cart-box">
-    <s-header :name="'购物车'"></s-header>
+    <s-header :name="'购物车'" :noback="true"></s-header>
     <div class="cart-body">
       <van-checkbox-group @change="groupChange" v-model="result" ref="checkboxGroup">
         <van-swipe-cell :right-width="50" v-for="(item, index) in list" :key="index">
