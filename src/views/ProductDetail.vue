@@ -147,7 +147,6 @@ export default {
       height: calc(100vh - 50px);
       overflow: hidden;
       overflow-y: auto;
-      margin-top: 44px;
       .detail-swipe-wrap {
         .my-swipe .van-swipe-item {
           img {

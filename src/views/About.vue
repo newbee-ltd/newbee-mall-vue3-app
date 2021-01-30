@@ -45,7 +45,6 @@ export default {
       width: 100%;
     }
     .about-body {
-      margin-top: 44px;
       font-size: 16px;
       a {
         color: #007fff;

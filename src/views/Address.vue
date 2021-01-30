@@ -35,7 +35,7 @@
 <script>
 import { reactive, toRefs, onMounted } from 'vue'
 import sHeader from '@/components/SimpleHeader'
-import { getAddressList } from '../service/address'
+import { getAddressList } from '@/service/address'
 import { useRoute, useRouter } from 'vue-router'
 export default {
   components: {
@@ -96,7 +96,6 @@ export default {
       display: none;
     }
     .address-item {
-      margin-top: 44px;
       .van-button {
         background: @primary;
         border-color: @primary;

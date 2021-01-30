@@ -32,39 +32,45 @@
     </div>
     <div class="good">
       <header class="good-header">新品上线</header>
-      <div class="good-box">
-        <div class="good-item" v-for="item in newGoodses" :key="item.goodsId" @click="goToDetail(item)">
-          <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
-          <div class="good-desc">
-            <div class="title">{{ item.goodsName }}</div>
-            <div class="price">¥ {{ item.sellingPrice }}</div>
+      <van-skeleton title :row="3" :loading="loading">
+        <div class="good-box">
+          <div class="good-item" v-for="item in newGoodses" :key="item.goodsId" @click="goToDetail(item)">
+            <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+            <div class="good-desc">
+              <div class="title">{{ item.goodsName }}</div>
+              <div class="price">¥ {{ item.sellingPrice }}</div>
+            </div>
           </div>
         </div>
-      </div>
+      </van-skeleton>
     </div>
     <div class="good">
       <header class="good-header">热门商品</header>
-      <div class="good-box">
-        <div class="good-item" v-for="item in hots" :key="item.goodsId" @click="goToDetail(item)">
-          <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
-          <div class="good-desc">
-            <div class="title">{{ item.goodsName }}</div>
-            <div class="price">¥ {{ item.sellingPrice }}</div>
+      <van-skeleton title :row="3" :loading="loading">
+        <div class="good-box">
+          <div class="good-item" v-for="item in hots" :key="item.goodsId" @click="goToDetail(item)">
+            <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+            <div class="good-desc">
+              <div class="title">{{ item.goodsName }}</div>
+              <div class="price">¥ {{ item.sellingPrice }}</div>
+            </div>
           </div>
         </div>
-      </div>
+      </van-skeleton>
     </div>
     <div class="good" :style="{ paddingBottom: '100px'}">
       <header class="good-header">最新推荐</header>
-      <div class="good-box">
-        <div class="good-item" v-for="item in recommends" :key="item.goodsId" @click="goToDetail(item)">
-          <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
-          <div class="good-desc">
-            <div class="title">{{ item.goodsName }}</div>
-            <div class="price">¥ {{ item.sellingPrice }}</div>
+      <van-skeleton title :row="3" :loading="loading">
+        <div class="good-box">
+          <div class="good-item" v-for="item in recommends" :key="item.goodsId" @click="goToDetail(item)">
+            <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+            <div class="good-desc">
+              <div class="title">{{ item.goodsName }}</div>
+              <div class="price">¥ {{ item.sellingPrice }}</div>
+            </div>
           </div>
         </div>
-      </div>
+      </van-skeleton>
     </div>
   </div>
 </template>
@@ -135,6 +141,7 @@ export default {
           categoryId: 100010
         }
       ],
+      loading: true
     })
     onMounted(async () => {
       const token = getLocal('token')
@@ -150,6 +157,7 @@ export default {
       state.newGoodses = data.newGoodses
       state.hots = data.hotGoodses
       state.recommends = data.recommendGoodses
+      state.loading = false
       Toast.clear()
     })
 

@@ -50,7 +50,7 @@
     </div>
     <van-submit-bar
       v-if="list.length > 0"
-      class="submit-all"
+      class="submit-all van-hairline--top"
       :price="total * 100"
       button-text="结算"
       @submit="onSubmit"
@@ -217,7 +217,7 @@ export default {
       }
     }
     .cart-body {
-      margin: 60px 0 100px 0;
+      margin: 16px 0 100px 0;
       padding-left: 10px;
       .good-item {
         display: flex;

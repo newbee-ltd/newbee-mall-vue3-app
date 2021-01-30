@@ -163,7 +163,6 @@ export default {
       margin-bottom: 20px;
       background: #fff;
       position: relative;
-      margin-top: 44px;
       font-size: 14px;
       padding: 15px;
       color: #222333;

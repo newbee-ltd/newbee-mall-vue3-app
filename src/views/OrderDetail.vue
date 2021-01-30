@@ -157,7 +157,6 @@ export default {
     background: #f7f7f7;
     .order-status {
       background: #fff;
-      margin-top: 44px;
       padding: 20px;
       font-size: 15px;
       .status-item {

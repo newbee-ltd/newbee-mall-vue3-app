@@ -11,16 +11,18 @@
 <template>
   <div class="user-box">
     <s-header :name="'我的'"></s-header>
-    <div class="user-info">
-      <div class="info">
-        <img src="//s.yezgea02.com/1604040746310/aaaddd.png"/>
-        <div class="user-desc">
-          <span>昵称：{{ user.nickName }}</span>
-          <span>登录名：{{ user.loginName }}</span>
-          <span class="name">个性签名：{{ user.introduceSign }}</span>
+    <van-skeleton title :avatar="true" :row="3" :loading="loading">
+      <div class="user-info">
+        <div class="info">
+          <img src="//s.yezgea02.com/1604040746310/aaaddd.png"/>
+          <div class="user-desc">
+            <span>昵称：{{ user.nickName }}</span>
+            <span>登录名：{{ user.loginName }}</span>
+            <span class="name">个性签名：{{ user.introduceSign }}</span>
+          </div>
         </div>
       </div>
-    </div>
+    </van-skeleton>
     <ul class="user-list">
       <li class="van-hairline--bottom" @click="goTo('/order')">
         <span>我的订单</span>
@@ -57,12 +59,14 @@ export default {
   setup() {
     const router = useRouter()
     const state = reactive({
-      user: {}
+      user: {},
+      loading: true
     })
 
     onMounted(async () => {
       const { data } = await getUserInfo()
       state.user = data
+      state.loading = false
     })
 
     const goBack = () => {
@@ -109,7 +113,6 @@ export default {
       background: linear-gradient(90deg, @primary, #51c7c7);
       box-shadow: 0 2px 5px #269090;
       border-radius: 6px;
-      margin-top: 50px;
       .info {
         position: relative;
         display: flex;

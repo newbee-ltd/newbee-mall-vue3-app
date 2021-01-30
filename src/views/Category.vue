@@ -11,7 +11,7 @@
 <template>
   <div class="categray">
     <div>
-      <header class="category-header wrap">
+      <header class="category-header wrap van-hairline--bottom">
         <i class="nbicon nbfanhui" @click="goHome"></i>
         <div class="header-search">
           <i class="nbicon nbSearch"></i>
@@ -163,7 +163,6 @@ export default {
     width: 100%;
     margin-top: 50px;
     background: #F8F8F8;
-    border-top: 1px solid #999;
     .nav-side-wrapper {
       width: 28%;
       height: 100%;
