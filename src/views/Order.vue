@@ -148,18 +148,20 @@ export default {
       }
     }
     .order-tab {
-      margin-top: 44px;
       position: fixed;
       left: 0;
       z-index: 1000;
       width: 100%;
       border-bottom: 1px solid #e9e9e9;
     }
+    .skeleton {
+      margin-top: 60px;
+    }
     .content {
       height: calc(~"(100vh - 70px)");
       overflow: hidden;
       overflow-y: scroll; 
-      margin-top: 78px;
+      margin-top: 34px;
     }
     .order-list-refresh {
       .van-card__content {
@@ -170,11 +172,6 @@ export default {
       .van-pull-refresh__head {
         background: #f9f9f9;
       }
-      // .van-list {
-      //   min-height: calc(100vh - 88px);
-      //   background: #f9f9f9;
-      //   margin-top: 20px;
-      // }
       .order-item-box {
         margin: 20px 10px;
         background-color: #fff;

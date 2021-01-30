@@ -25,7 +25,7 @@
 import { reactive, onMounted, toRefs } from 'vue'
 import md5 from 'js-md5'
 import sHeader from '@/components/SimpleHeader'
-import { getUserInfo, EditUserInfo, logout } from '../service/user'
+import { getUserInfo, EditUserInfo, logout } from '@/service/user'
 import { setLocal } from '@/common/js/utils'
 import { Toast } from 'vant'
 export default {
@@ -76,9 +76,6 @@ export default {
 
 <style lang="less" scoped>
   .seting-box {
-    .input-item {
-      margin-top: 44px;
-    }
     .save-btn {
       width: 80%;
       margin: 20px auto ;

@@ -152,7 +152,6 @@ export default {
     }
   }
   .address-edit-box {
-    margin-top: 44px;
     .van-address-edit {
       .van-button--danger {
         background: @primary;

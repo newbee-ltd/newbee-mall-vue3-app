@@ -1,21 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import About from '../views/About.vue'
-import Category from '../views/Category.vue'
-import Login from '../views/Login.vue'
-import ProductList from '../views/ProductList.vue'
-import ProductDetail from '../views/ProductDetail.vue'
-import Cart from '../views/Cart.vue'
-import CreateOrder from '../views/CreateOrder.vue'
-import User from '../views/User.vue'
-import Setting from '../views/Setting.vue'
-import Address from '../views/Address.vue'
-import AddressEdit from '../views/AddressEdit.vue'
-import Order from '../views/Order.vue'
-import OrderDetail from '../views/OrderDetail.vue'
-
-
-
 
 const router = createRouter({
   history: createWebHashHistory(), // hash模式：createWebHashHistory，history模式：createWebHistory
@@ -27,7 +10,7 @@ const router = createRouter({
     {
       path: '/home',
       name: 'home',
-      component: Home,
+      component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       meta: {
         index: 1
       }
@@ -35,7 +18,7 @@ const router = createRouter({
     {
       path: '/login',
       name: 'login',
-      component: Login,
+      component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
       meta: {
         index: 1
       }
@@ -43,7 +26,7 @@ const router = createRouter({
     {
       path: '/about',
       name: 'about',
-      component: About, 
+      component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
       meta: {
         index: 2
       }
@@ -51,7 +34,7 @@ const router = createRouter({
     {
       path: '/category',
       name: 'category',
-      component: Category,
+      component: () => import(/* webpackChunkName: "category" */ '@/views/Category.vue'),
       meta: {
         index: 1
       }
@@ -59,82 +42,82 @@ const router = createRouter({
     {
       path: '/product-list',
       name: 'product-list',
+      component: () => import(/* webpackChunkName: "product-list" */ '@/views/ProductList.vue'),
       meta: {
         index: 2
-      },
-      component: ProductList
+      }
     },
     {
       path: '/product/:id',
       name: 'product',
+      component: () => import(/* webpackChunkName: "product" */ '@/views/ProductDetail.vue'),
       meta: {
         index: 3
-      },
-      component: ProductDetail
+      }
     },
     {
       path: '/cart',
       name: 'cart',
+      component: () => import(/* webpackChunkName: "cart" */ '@/views/Cart.vue'),
       meta: {
         index: 1
-      },
-      component: Cart
+      }
     },
     {
       path: '/create-order',
       name: 'create-order',
+      component: () => import(/* webpackChunkName: "create-order" */ '@/views/CreateOrder.vue'),
       meta: {
         index: 2
-      },
-      component: CreateOrder
+      }
     },
     {
       path: '/order',
       name: 'order',
+      component: () => import(/* webpackChunkName: "order" */ '@/views/Order.vue'),
       meta: {
         index: 2
-      },
-      component: Order
+      }
     },
     {
       path: '/order-detail',
       name: 'order-detail',
+      component: () => import(/* webpackChunkName: "order-detail" */ '@/views/OrderDetail.vue'),
       meta: {
         index: 3
-      },
-      component: OrderDetail
+      }
     },
     {
       path: '/user',
       name: 'user',
+      component: () => import(/* webpackChunkName: "user" */ '@/views/User.vue'),
       meta: {
         index: 1
-      },
-      component: User
+      }
     },
     {
       path: '/setting',
       name: 'setting',
+      component: () => import(/* webpackChunkName: "setting" */ '@/views/Setting.vue'),
       meta: {
         index: 2
-      },
-      component: Setting
+      }
     },
     {
       path: '/address',
       name: 'address',
+      component: () => import(/* webpackChunkName: "address" */ '@/views/Address.vue'),
       meta: {
         index: 2
-      },
-      component: Address
+      }
     },
     {
       path: '/address-edit',
       name: 'address-edit',
+      component: () => import(/* webpackChunkName: "address-edit" */ '@/views/AddressEdit.vue'),
       meta: {
         index: 3
-      },
-      component: AddressEdit
+      }
     },
   ]
 })

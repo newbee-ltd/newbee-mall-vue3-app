@@ -9,12 +9,13 @@
 -->
 
 <template>
-  <header class="simple-header">
+  <header class="simple-header van-hairline--bottom">
     <i v-if="!isback" class="nbicon nbfanhui" @click="goBack"></i>
     <i v-else>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</i>
     <div class="simple-header-name">{{ name }}</div>
     <i class="nbicon nbmore"></i>
   </header>
+  <div class="block" />
 </template>
 
 <script>
@@ -69,9 +70,11 @@ export default {
     .boxSizing();
     color: #252525;
     background: #fff;
-    border-bottom: 1px solid #dcdcdc;
     .simple-header-name {
       font-size: 14px;
     }
+  }
+  .block {
+    height: 44px;
   }
 </style>
