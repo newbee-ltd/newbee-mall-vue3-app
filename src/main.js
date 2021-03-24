@@ -14,7 +14,7 @@ app.config.globalProperties.$filters = {
     if (url && url.startsWith('http')) {
       return url
     } else {
-      url = `http://47.99.134.126:28019${url}`
+      url = `http://backend-api-01.newbee.ltd${url}`
       return url
     }
   }
