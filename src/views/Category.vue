@@ -189,6 +189,11 @@ export default {
       height: 100%;
       padding: 0 10px;
       background: #fff;
+      overflow-y: scroll;
+      touch-action: pan-y;
+      * {
+          touch-action: pan-y;
+        }
       .boxSizing();
       .swiper-container {
         width: 100%;

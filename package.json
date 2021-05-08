@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.20.0",
-    "better-scroll": "^2.0.5",
+    "better-scroll": "^2.3.0",
     "core-js": "^3.6.5",
     "js-md5": "^0.7.3",
     "lib-flexible": "^0.3.2",

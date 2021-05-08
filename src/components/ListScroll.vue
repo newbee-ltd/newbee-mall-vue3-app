@@ -9,7 +9,7 @@
 -->
 
 <template>
-  <div ref="wrapper" class="scroll-wrapper">
+  <div class="scroll-wrapper">
     <slot></slot>
   </div>
 </template>
@@ -98,5 +98,6 @@ export default {
     height: 100%;
     overflow: hidden;
     overflow-y: scroll;
+    touch-action: pan-y;
   }
 </style>
