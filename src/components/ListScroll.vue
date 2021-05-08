@@ -9,7 +9,7 @@
 -->
 
 <template>
-  <div class="scroll-wrapper">
+  <div ref="wrapper" class="scroll-wrapper">
     <slot></slot>
   </div>
 </template>
@@ -73,6 +73,9 @@ export default {
     this.$nextTick(() => {
       this.initScroll()
     })
+  },
+  updated() {
+    this.bs.refresh()
   },
   methods: {
     initScroll() {
