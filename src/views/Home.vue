@@ -35,7 +35,7 @@
       <van-skeleton title :row="3" :loading="loading">
         <div class="good-box">
           <div class="good-item" v-for="item in newGoodses" :key="item.goodsId" @click="goToDetail(item)">
-            <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+            <img :src="$filters.prefix(item.goodsCoverImg)" alt="" loading="lazy">
             <div class="good-desc">
               <div class="title">{{ item.goodsName }}</div>
               <div class="price">¥ {{ item.sellingPrice }}</div>
@@ -49,7 +49,7 @@
       <van-skeleton title :row="3" :loading="loading">
         <div class="good-box">
           <div class="good-item" v-for="item in hots" :key="item.goodsId" @click="goToDetail(item)">
-            <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+            <img :src="$filters.prefix(item.goodsCoverImg)" alt="" loading="lazy">
             <div class="good-desc">
               <div class="title">{{ item.goodsName }}</div>
               <div class="price">¥ {{ item.sellingPrice }}</div>
@@ -63,7 +63,7 @@
       <van-skeleton title :row="3" :loading="loading">
         <div class="good-box">
           <div class="good-item" v-for="item in recommends" :key="item.goodsId" @click="goToDetail(item)">
-            <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+            <img :src="$filters.prefix(item.goodsCoverImg)" alt="" loading="lazy">
             <div class="good-desc">
               <div class="title">{{ item.goodsName }}</div>
               <div class="price">¥ {{ item.sellingPrice }}</div>
