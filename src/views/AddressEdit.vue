@@ -92,7 +92,7 @@ export default {
             // 找到区对应的几个市区
             // eslint-disable-next-line no-unused-vars
             const cityItem = Object.entries(state.areaList.city_list).filter(
-              ([cityId, cityName]) => cityId.substr(0, 4) == id.substr(0, 4)
+              ([cityId]) => cityId.substr(0, 4) == id.substr(0, 4)
             )[0]
             // 对比找到的省份和接口返回的省份是否相等，因为有一些区会重名
             if (
