@@ -257,9 +257,7 @@ export default {
   }
   .category-list {
     display: flex;
-    flex-shrink: 0;
     flex-wrap: wrap;
-    width: 100%;
     padding-bottom: 13px;
     div {
       display: flex;
@@ -284,7 +282,6 @@ export default {
     }
     .good-box {
       display: flex;
-      justify-content: flex-start;
       flex-wrap: wrap;
       .good-item {
         box-sizing: border-box;
