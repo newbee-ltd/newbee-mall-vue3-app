@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import { reactive, onMounted, toRefs, nextTick } from 'vue'
+import { reactive, onMounted, toRefs,onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import swiper from '@/components/Swiper'
 import navBar from '@/components/NavBar'
@@ -143,7 +143,18 @@ export default {
       ],
       loading: true
     })
+
+    function scrollHandler() {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+        scrollTop > 100 ? state.headerScroll = true : state.headerScroll = false
+    }
+
+    onBeforeUnmount(()=>window.removeEventListener('scroll',scrollHandler))
+
     onMounted(async () => {
+
+      window.addEventListener('scroll', scrollHandler)
+
       const token = getLocal('token')
       if (token) {
         state.isLogin = true
@@ -159,13 +170,6 @@ export default {
       state.recommends = data.recommendGoodses
       state.loading = false
       Toast.clear()
-    })
-
-    nextTick(() => {
-      window.addEventListener('scroll', () => {
-        let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
-        scrollTop > 100 ? state.headerScroll = true : state.headerScroll = false
-      })
     })
 
     const goToDetail = (item) => {
