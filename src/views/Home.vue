@@ -25,7 +25,7 @@
     <nav-bar />
     <swiper :list="swiperList"></swiper>
     <div class="category-list">
-      <div v-for="item in categoryList" v-bind:key="item.categoryId" @click="tips">
+      <div v-for="item in categoryList" :key="item.categoryId" @click="tips">
         <img :src="item.imgUrl">
         <span>{{item.name}}</span>
       </div>
