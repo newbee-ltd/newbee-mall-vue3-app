@@ -5,7 +5,8 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "format": "npx prettier --write ."
   },
   "dependencies": {
     "axios": "^0.20.0",
@@ -28,10 +29,12 @@
     "babel-eslint": "^10.1.0",
     "babel-plugin-import": "^1.13.1",
     "eslint": "^6.7.2",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-vue": "^7.0.0-0",
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
-    "postcss-pxtorem": "^5.1.1"
+    "postcss-pxtorem": "^5.1.1",
+    "prettier": "^2.3.1"
   },
   "eslintConfig": {
     "root": true,
@@ -40,7 +43,8 @@
     },
     "extends": [
       "plugin:vue/vue3-essential",
-      "eslint:recommended"
+      "eslint:recommended",
+      "prettier"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
