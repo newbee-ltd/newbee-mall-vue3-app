@@ -17,30 +17,30 @@
 </template>
 
 <script>
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export default {
   setup() {
-    const router = useRouter();
-    const transitionName = ref("slide-left");
+    const router = useRouter()
+    const transitionName = ref('slide-left')
 
     router.beforeEach((to, from) => {
       if (to.meta.index > from.meta.index) {
-        transitionName.value = "slide-left"; // 向左滑动
+        transitionName.value = 'slide-left' // 向左滑动
       } else if (to.meta.index < from.meta.index) {
         // 由次级到主级
-        transitionName.value = "slide-right";
+        transitionName.value = 'slide-right'
       } else {
-        transitionName.value = ""; // 同级无过渡效果
+        transitionName.value = '' // 同级无过渡效果
       }
-    });
+    })
 
     return {
       transitionName,
-    };
+    }
   },
-};
+}
 </script>
 
 <style lang="less">
@@ -52,7 +52,7 @@ body {
 }
 #app {
   height: 100%;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   // text-align: center;

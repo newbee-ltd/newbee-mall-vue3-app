@@ -1,9 +1,14 @@
 <template>
   <div class="img-verify">
-    <canvas ref="verify" :width="width" :height="height" @click="handleDraw"></canvas>
+    <canvas
+      ref="verify"
+      :width="width"
+      :height="height"
+      @click="handleDraw"
+    ></canvas>
   </div>
 </template>
-n 
+n
 <script type="text/ecmascript-6">
 import { reactive, onMounted, ref, toRefs } from 'vue'
 export default {
@@ -19,7 +24,7 @@ export default {
       // 初始化绘制图片验证码
       state.imgCode = draw()
     })
-    
+
     // 点击图片重新绘制
     const handleDraw = () => {
       state.imgCode = draw()

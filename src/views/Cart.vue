@@ -12,11 +12,21 @@
   <div class="cart-box">
     <s-header :name="'购物车'" :noback="true"></s-header>
     <div class="cart-body">
-      <van-checkbox-group @change="groupChange" v-model="result" ref="checkboxGroup">
-        <van-swipe-cell :right-width="50" v-for="(item, index) in list" :key="index">
+      <van-checkbox-group
+        @change="groupChange"
+        v-model="result"
+        ref="checkboxGroup"
+      >
+        <van-swipe-cell
+          :right-width="50"
+          v-for="(item, index) in list"
+          :key="index"
+        >
           <div class="good-item">
             <van-checkbox :name="item.cartItemId" />
-            <div class="good-img"><img :src="$filters.prefix(item.goodsCoverImg)" alt=""></div>
+            <div class="good-img">
+              <img :src="$filters.prefix(item.goodsCoverImg)" alt="" />
+            </div>
             <div class="good-desc">
               <div class="good-title">
                 <span>{{ item.goodsName }}</span>
@@ -55,12 +65,20 @@
       button-text="结算"
       @submit="onSubmit"
     >
-      <van-checkbox @click="allCheck" v-model:checked="checkAll">全选</van-checkbox>
+      <van-checkbox @click="allCheck" v-model:checked="checkAll"
+        >全选</van-checkbox
+      >
     </van-submit-bar>
     <div class="empty" v-if="!list.length">
-      <img class="empty-cart" src="https://s.yezgea02.com/1604028375097/empty-car.png" alt="空购物车">
+      <img
+        class="empty-cart"
+        src="https://s.yezgea02.com/1604028375097/empty-car.png"
+        alt="空购物车"
+      />
       <div class="title">购物车空空如也</div>
-      <van-button round color="#1baeae" type="primary" @click="goTo" block>前往选购</van-button>
+      <van-button round color="#1baeae" type="primary" @click="goTo" block
+        >前往选购</van-button
+      >
     </div>
     <nav-bar></nav-bar>
   </div>
@@ -78,7 +96,7 @@ import { getCart, deleteCartItem, modifyCart } from '@/service/cart'
 export default {
   components: {
     navBar,
-    sHeader
+    sHeader,
   },
   setup() {
     const router = useRouter()
@@ -88,7 +106,7 @@ export default {
       list: [],
       all: false,
       result: [],
-      checkAll: true
+      checkAll: true,
     })
 
     onMounted(() => {
@@ -96,17 +114,19 @@ export default {
     })
 
     const init = async () => {
-      Toast.loading({ message: '加载中...', forbidClick: true });
+      Toast.loading({ message: '加载中...', forbidClick: true })
       const { data } = await getCart({ pageNumber: 1 })
       state.list = data
-      state.result = data.map(item => item.cartItemId)
+      state.result = data.map((item) => item.cartItemId)
       Toast.clear()
     }
 
     const total = computed(() => {
       let sum = 0
-      let _list = state.list.filter(item => state.result.includes(item.cartItemId))
-      _list.forEach(item => {
+      let _list = state.list.filter((item) =>
+        state.result.includes(item.cartItemId)
+      )
+      _list.forEach((item) => {
         sum += item.goodsCount * item.sellingPrice
       })
       return sum
@@ -129,19 +149,23 @@ export default {
         Toast.fail('商品不得小于0')
         return
       }
-      if (state.list.filter(item => item.cartItemId == detail.name)[0].goodsCount == value) return
-      Toast.loading({ message: '修改中...', forbidClick: true });
+      if (
+        state.list.filter((item) => item.cartItemId == detail.name)[0]
+          .goodsCount == value
+      )
+        return
+      Toast.loading({ message: '修改中...', forbidClick: true })
       const params = {
         cartItemId: detail.name,
-        goodsCount: value
+        goodsCount: value,
       }
       await modifyCart(params)
-      state.list.forEach(item => {
+      state.list.forEach((item) => {
         if (item.cartItemId == detail.name) {
           item.goodsCount = value
         }
       })
-      Toast.clear();
+      Toast.clear()
     }
 
     const onSubmit = async () => {
@@ -170,16 +194,14 @@ export default {
       }
       state.result = result
     }
-    
+
     const allCheck = () => {
       if (!state.checkAll) {
-        state.result = state.list.map(item => item.cartItemId)
+        state.result = state.list.map((item) => item.cartItemId)
       } else {
         state.result = []
       }
     }
-
-    
 
     return {
       ...toRefs(state),
@@ -190,104 +212,104 @@ export default {
       onSubmit,
       deleteGood,
       groupChange,
-      allCheck
+      allCheck,
     }
-  }
+  },
 }
 </script>
 
 <style lang="less">
-  @import '../common/style/mixin';
-  .cart-box {
-    .cart-header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 10000;
-      .fj();
-      .wh(100%, 44px);
-      line-height: 44px;
-      padding: 0 10px;
-      .boxSizing();
-      color: #252525;
-      background: #fff;
-      border-bottom: 1px solid #dcdcdc;
-      .cart-name {
-        font-size: 14px;
-      }
-    }
-    .cart-body {
-      margin: 16px 0 100px 0;
-      padding-left: 10px;
-      .good-item {
-        display: flex;
-        .good-img {
-          img {
-            .wh(100px, 100px)
-          }
-        }
-        .good-desc {
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          flex: 1;
-          padding: 20px;
-          .good-title {
-            display: flex;
-            justify-content: space-between;
-          }
-          .good-btn {
-            display: flex;
-            justify-content: space-between;
-            .price {
-              font-size: 16px;
-              color: red;
-              line-height: 28px;
-            }
-            .van-icon-delete {
-              font-size: 20px;
-              margin-top: 4px;
-            }
-          }
-        }
-      }
-      .delete-button {
-        width: 50px;
-        height: 100%;
-      }
-    }
-    .empty {
-      width: 50%;
-      margin: 0 auto;
-      text-align: center;
-      margin-top: 200px;
-      .empty-cart {
-        width: 150px;
-        margin-bottom: 20px;
-      }
-      .van-icon-smile-o {
-        font-size: 50px;
-      }
-      .title {
-        font-size: 16px;
-        margin-bottom: 20px;
-      }
-    }
-    .submit-all {
-      margin-bottom: 50px;
-      .van-checkbox {
-        margin-left: 10px
-      }
-      .van-submit-bar__text {
-        margin-right: 10px
-      }
-      .van-submit-bar__button {
-        background: @primary;
-      }
-    }
-    .van-checkbox__icon--checked .van-icon {
-      background-color: @primary;
-      border-color: @primary;
+@import '../common/style/mixin';
+.cart-box {
+  .cart-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    .fj();
+    .wh(100%, 44px);
+    line-height: 44px;
+    padding: 0 10px;
+    .boxSizing();
+    color: #252525;
+    background: #fff;
+    border-bottom: 1px solid #dcdcdc;
+    .cart-name {
+      font-size: 14px;
     }
   }
+  .cart-body {
+    margin: 16px 0 100px 0;
+    padding-left: 10px;
+    .good-item {
+      display: flex;
+      .good-img {
+        img {
+          .wh(100px, 100px);
+        }
+      }
+      .good-desc {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        flex: 1;
+        padding: 20px;
+        .good-title {
+          display: flex;
+          justify-content: space-between;
+        }
+        .good-btn {
+          display: flex;
+          justify-content: space-between;
+          .price {
+            font-size: 16px;
+            color: red;
+            line-height: 28px;
+          }
+          .van-icon-delete {
+            font-size: 20px;
+            margin-top: 4px;
+          }
+        }
+      }
+    }
+    .delete-button {
+      width: 50px;
+      height: 100%;
+    }
+  }
+  .empty {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    margin-top: 200px;
+    .empty-cart {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+    .van-icon-smile-o {
+      font-size: 50px;
+    }
+    .title {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+  }
+  .submit-all {
+    margin-bottom: 50px;
+    .van-checkbox {
+      margin-left: 10px;
+    }
+    .van-submit-bar__text {
+      margin-right: 10px;
+    }
+    .van-submit-bar__button {
+      background: @primary;
+    }
+  }
+  .van-checkbox__icon--checked .van-icon {
+    background-color: @primary;
+    border-color: @primary;
+  }
+}
 </style>

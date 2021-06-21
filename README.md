@@ -1,12 +1,12 @@
 ![](static-files/newbee-mall.png)
 
-- [知乎：如何看待慕课网涉嫌抄袭开源项目作为《Java工程师》的终极项目并上线销售？](https://www.zhihu.com/question/464292538)
-- [《newbee-mall开源项目被慕课网拿去做课程，然后我毫不知情，这又是什么骚操作？》](https://mp.weixin.qq.com/s/oXr6O7u7vqQQi8mzTkoTDg)
-- [《花费3680元买了一个慕课网的Java就业班课程，里面竟然有自己写的开源项目！》](https://mp.weixin.qq.com/s/TLZbAEjRi0YT1t8xoFv4dQ)
-- [《newbee-mall开源项目被慕课网拿去做课程，讲师已道歉，课程却还在售卖》](https://mp.weixin.qq.com/s/sue5JyZcysFRNFTxUnZiIQ)
+- [知乎：如何看待慕课网涉嫌抄袭开源项目作为《Java 工程师》的终极项目并上线销售？](https://www.zhihu.com/question/464292538)
+- [《newbee-mall 开源项目被慕课网拿去做课程，然后我毫不知情，这又是什么骚操作？》](https://mp.weixin.qq.com/s/oXr6O7u7vqQQi8mzTkoTDg)
+- [《花费 3680 元买了一个慕课网的 Java 就业班课程，里面竟然有自己写的开源项目！》](https://mp.weixin.qq.com/s/TLZbAEjRi0YT1t8xoFv4dQ)
+- [《newbee-mall 开源项目被慕课网拿去做课程，讲师已道歉，课程却还在售卖》](https://mp.weixin.qq.com/s/sue5JyZcysFRNFTxUnZiIQ)
 - [《可笑！慕课网涉嫌抄袭开源项目至今没有道歉，而且在偷偷的“毁尸灭迹”》](https://mp.weixin.qq.com/s/UTsA5WOFPH4UUf5rEj2HpQ)
-- [《newbee-mall开源项目被慕课网拿去做课程，项目详细对比记录，更多实锤看这里》](https://mp.weixin.qq.com/s/JTt0r_t8qhfUwkhpdUjrTg)
-- [《一个被慕课网拿去做Java就业班终极项目的开源商城项目，推荐给大家》](https://mp.weixin.qq.com/s/BKIETwgEPBprWYhQZJDLIA)
+- [《newbee-mall 开源项目被慕课网拿去做课程，项目详细对比记录，更多实锤看这里》](https://mp.weixin.qq.com/s/JTt0r_t8qhfUwkhpdUjrTg)
+- [《一个被慕课网拿去做 Java 就业班终极项目的开源商城项目，推荐给大家》](https://mp.weixin.qq.com/s/BKIETwgEPBprWYhQZJDLIA)
 
 ![Build Status](https://img.shields.io/badge/build-passing-green.svg)
 ![Version 3.0.0](https://img.shields.io/badge/version-3.0.0-yellow.svg)
@@ -25,7 +25,7 @@ newbee-mall 项目是一套电商系统，包括 newbee-mall 商城系统及 new
 - [新蜂商城 Vue3 版本 newbee-mall-vue3-app](https://github.com/newbee-ltd/newbee-mall-vue3-app)
 - [新蜂商城后台管理系统 Vue3 版本 vue3-admin](https://github.com/newbee-ltd/vue3-admin)
 
->Vue2 版本与 Vue3 版本分成两个仓库，大家需要哪个版本就去对应的仓库即可。
+> Vue2 版本与 Vue3 版本分成两个仓库，大家需要哪个版本就去对应的仓库即可。
 
 **坚持不易，如果觉得项目还不错的话可以给项目一个 Star 吧，也是对我一直更新代码的一种鼓励啦，谢谢各位的支持。**
 
@@ -49,8 +49,8 @@ newbee-mall 项目是一套电商系统，包括 newbee-mall 商城系统及 new
 - [商城后端项目启动和运行注意事项](https://juejin.im/book/6844733826191589390)
 - [VSCode 的相关配置及插件介绍](https://juejin.im/book/6844733826191589390)
 - [基础篇：Vue 指令](https://juejin.im/book/6844733826191589390)
-- [基础篇：Vue全局API及生命周期介绍](https://juejin.im/book/6844733826191589390)
-- [基础篇: CSS 预处理工具Less的介绍及使用](https://juejin.im/book/6844733826191589390)
+- [基础篇：Vue 全局 API 及生命周期介绍](https://juejin.im/book/6844733826191589390)
+- [基础篇: CSS 预处理工具 Less 的介绍及使用](https://juejin.im/book/6844733826191589390)
 - [Vue 脚手架工具 Vue-Cli 配置介绍](https://juejin.im/book/6844733826191589390)
 - [Vue-Router 浅析原理及使用](https://juejin.im/book/6844733826191589390)
 - [全局状态管理插件 Vuex 介绍及使用](https://juejin.im/book/6844733826191589390)
@@ -70,7 +70,7 @@ newbee-mall 项目是一套电商系统，包括 newbee-mall 商城系统及 new
 - [商城移动端开发实战-新蜂商城底部导航(抽离公共组件)](https://juejin.im/book/6844733826191589390)
 - [商城移动端开发实战-新蜂商城登录注册页(前端鉴权)](https://juejin.im/book/6844733826191589390)
 - [商城移动端开发实战-商城首页制作(轮播图、首页商品列表)](https://juejin.im/book/6844733826191589390)
-- [商城移动端开发实战-商品分类页面制作(better-scrol的介绍及使用)](https://juejin.im/book/6844733826191589390)
+- [商城移动端开发实战-商品分类页面制作(better-scrol 的介绍及使用)](https://juejin.im/book/6844733826191589390)
 - [商城移动端开发实战-商品列表页面制作(无限滚动加载)](https://juejin.im/book/6844733826191589390)
 - [商城移动端开发实战-商品详情页面制作(Vuex 购物车数量全局管理)](https://juejin.im/book/6844733826191589390)
 - [商城移动端开发实战-商城购物车页面制作(购物车页)](https://juejin.im/book/6844733826191589390)
@@ -85,11 +85,11 @@ newbee-mall 项目是一套电商系统，包括 newbee-mall 商城系统及 new
 > 大家有任何问题或者建议都可以在 [issues](https://github.com/newbee-ltd/newbee-mall-vue3-app/issues) 中反馈给我，我会慢慢完善这个项目。
 
 - 我的邮箱：2449207463@qq.com
-- QQ技术交流群：932227898
+- QQ 技术交流群：932227898
 
 ## 软件著作权
 
->本系统已申请软件著作权，受国家版权局知识产权以及国家计算机软件著作权保护！
+> 本系统已申请软件著作权，受国家版权局知识产权以及国家计算机软件著作权保护！
 
 ![](https://newbee-mall.oss-cn-beijing.aliyuncs.com/poster/store/newbee-mall-copyright-02.png)
 

@@ -7,9 +7,9 @@
  * 版权所有，侵权必究！
  */
 
-var server = require('pushstate-server');
+var server = require('pushstate-server')
 
 server.start({
   port: 5008,
-  directory: './dist'
-});
+  directory: './dist',
+})

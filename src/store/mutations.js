@@ -8,7 +8,7 @@
  */
 
 export default {
-  addCart (state, payload) {
+  addCart(state, payload) {
     state.cartCount = payload.count
-  }
+  },
 }
