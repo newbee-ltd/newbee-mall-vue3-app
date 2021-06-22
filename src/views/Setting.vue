@@ -14,10 +14,26 @@
     <div class="input-item">
       <van-field v-model="nickName" label="昵称" />
       <van-field v-model="introduceSign" label="个性签名" />
-      <van-field v-model="password" type='password' label="修改密码" />
+      <van-field v-model="password" type="password" label="修改密码" />
     </div>
-    <van-button round class="save-btn" color="#1baeae" type="primary" @click="save" block>保存</van-button>
-    <van-button round class="save-btn" color="#1baeae" type="primary" @click="handleLogout" block>退出登录</van-button>
+    <van-button
+      round
+      class="save-btn"
+      color="#1baeae"
+      type="primary"
+      @click="save"
+      block
+      >保存</van-button
+    >
+    <van-button
+      round
+      class="save-btn"
+      color="#1baeae"
+      type="primary"
+      @click="handleLogout"
+      block
+      >退出登录</van-button
+    >
   </div>
 </template>
 
@@ -30,13 +46,13 @@ import { setLocal } from '@/common/js/utils'
 import { Toast } from 'vant'
 export default {
   components: {
-    sHeader
+    sHeader,
   },
   setup() {
     const state = reactive({
       nickName: '',
       introduceSign: '',
-      password: ''
+      password: '',
     })
 
     onMounted(async () => {
@@ -48,11 +64,11 @@ export default {
     const save = async () => {
       const params = {
         introduceSign: state.introduceSign,
-        nickName: state.nickName
+        nickName: state.nickName,
       }
       if (state.password) {
         params.passwordMd5 = md5(state.password)
-      } 
+      }
       await EditUserInfo(params)
       Toast.success('保存成功')
     }
@@ -68,17 +84,17 @@ export default {
     return {
       ...toRefs(state),
       save,
-      handleLogout
+      handleLogout,
     }
-  }
+  },
 }
 </script>
 
 <style lang="less" scoped>
-  .seting-box {
-    .save-btn {
-      width: 80%;
-      margin: 20px auto ;
-    }
+.seting-box {
+  .save-btn {
+    width: 80%;
+    margin: 20px auto;
   }
+}
 </style>

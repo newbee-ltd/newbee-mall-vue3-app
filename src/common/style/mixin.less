@@ -6,12 +6,12 @@
  * Copyright (c) 2020 陈尼克 all rights reserved.
  * 版权所有，侵权必究！
  */
- 
+
 @import './base.less';
 @primary: #1baeae; // 主题色
-@orange: #FF6B01; 
-@bc: #F7F7F7;
-@fc:#fff;
+@orange: #ff6b01;
+@bc: #f7f7f7;
+@fc: #fff;
 
 // // 背景图片地址和大小
 .bis(@url) {
@@ -30,9 +30,9 @@
 }
 
 // //1px底部边框
-.border-1px(@color){
+.border-1px(@color) {
   position: relative;
-  &:after{
+  &:after {
     display: block;
     position: absolute;
     left: 0;
@@ -43,10 +43,10 @@
   }
 }
 // //定位全屏
-.allcover{
-  position:absolute;
-  top:0;
-  right:0;
+.allcover {
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 
 // //定位上下左右居中
@@ -72,13 +72,13 @@
 }
 
 // //宽高
-.wh(@width, @height){
+.wh(@width, @height) {
   width: @width;
   height: @height;
 }
 
 // //字体大小，颜色
-.sc(@size, @color){
+.sc(@size, @color) {
   font-size: @size;
   color: @color;
 }
@@ -90,7 +90,7 @@
 }
 
 // //flex 布局和 子元素 对其方式
-.fj(@type: space-between){
+.fj(@type: space-between) {
   display: flex;
   justify-content: @type;
 }

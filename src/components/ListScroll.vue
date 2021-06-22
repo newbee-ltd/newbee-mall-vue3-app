@@ -25,48 +25,48 @@ export default {
      */
     probeType: {
       type: Number,
-      default: 1
+      default: 1,
     },
     // 点击列表是否派发click事件
     click: {
       type: Boolean,
-      default: true
+      default: true,
     },
     // 是否开启横向滚动
     scrollX: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 是否派发滚动事件
     listenScroll: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 列表的数据
     scrollData: {
       type: Array,
-      default: null
+      default: null,
     },
     // 是否派发滚动到底部的事件，用于上拉加载
     pullup: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 是否派发顶部下拉的事件，用于下拉刷新
     pulldown: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 是否派发列表滚动开始的事件
     beforeScroll: {
       type: Boolean,
-      default: false
+      default: false,
     },
     // 当数据更新后，刷新scroll的延时
     refreshDelay: {
       type: Number,
-      default: 20
-    }
+      default: 20,
+    },
   },
   mounted() {
     // 在 DOM 渲染完毕后初始化 better-scroll
@@ -82,25 +82,25 @@ export default {
       // better-scroll 初始化
       this.bs = new BScroll(this.$refs.wrapper, {
         probeType: 3,
-        click: true
+        click: true,
       })
       this.bs.on('scroll', () => {
-          console.log('scrolling-')
-        })
-        this.bs.on('scrollEnd', () => {
-          console.log('scrollingEnd')
-        })
-    } 
-  }
+        console.log('scrolling-')
+      })
+      this.bs.on('scrollEnd', () => {
+        console.log('scrollingEnd')
+      })
+    },
+  },
 }
 </script>
 
 <style lang="less" scoped>
-  .scroll-wrapper {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    overflow-y: scroll;
-    touch-action: pan-y;
-  }
+.scroll-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: scroll;
+  touch-action: pan-y;
+}
 </style>

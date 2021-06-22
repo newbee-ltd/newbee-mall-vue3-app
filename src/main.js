@@ -1,10 +1,42 @@
 import { createApp } from 'vue'
-import { ActionBar, ActionBarIcon, ActionBarButton, Divider, Popup, Overlay, Loading, Dialog, ContactCard, Form, AddressEdit, AddressList, Field, CellGroup, Cell, SwipeCell, Icon, Stepper, Card, Checkbox, CheckboxGroup, Button, Swipe, SwipeItem, PullRefresh, List, Tab, Tabs, SubmitBar, Toast, Skeleton } from 'vant'
+import {
+  ActionBar,
+  ActionBarIcon,
+  ActionBarButton,
+  Divider,
+  Popup,
+  Overlay,
+  Loading,
+  Dialog,
+  ContactCard,
+  Form,
+  AddressEdit,
+  AddressList,
+  Field,
+  CellGroup,
+  Cell,
+  SwipeCell,
+  Icon,
+  Stepper,
+  Card,
+  Checkbox,
+  CheckboxGroup,
+  Button,
+  Swipe,
+  SwipeItem,
+  PullRefresh,
+  List,
+  Tab,
+  Tabs,
+  SubmitBar,
+  Toast,
+  Skeleton,
+} from 'vant'
 import App from './App.vue'
 import store from './store'
 import router from './router'
 import 'lib-flexible/flexible'
-import 'vant/lib/index.css'; // 全局引入样式
+import 'vant/lib/index.css' // 全局引入样式
 
 const app = createApp(App) // 创建实例
 
@@ -17,10 +49,11 @@ app.config.globalProperties.$filters = {
       url = `http://backend-api-01.newbee.ltd${url}`
       return url
     }
-  }
+  },
 }
 
-app.use(ActionBarButton)
+app
+  .use(ActionBarButton)
   .use(ActionBarIcon)
   .use(ActionBar)
   .use(Divider)

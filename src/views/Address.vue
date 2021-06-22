@@ -9,7 +9,10 @@
 -->
 <template>
   <div class="address-box">
-    <s-header :name="'地址管理'" :back="from == 'create-order' ? '' : '/user'"></s-header>
+    <s-header
+      :name="'地址管理'"
+      :back="from == 'create-order' ? '' : '/user'"
+    ></s-header>
     <div class="address-item">
       <van-address-list
         v-if="from != 'mine'"
@@ -39,7 +42,7 @@ import { getAddressList } from '@/service/address'
 import { useRoute, useRouter } from 'vue-router'
 export default {
   components: {
-    sHeader
+    sHeader,
   },
   setup() {
     const route = useRoute()
@@ -47,7 +50,7 @@ export default {
     const state = reactive({
       chosenAddressId: '1',
       list: [],
-      from: route.query.from
+      from: route.query.from,
     })
 
     onMounted(async () => {
@@ -56,50 +59,59 @@ export default {
         state.list = []
         return
       }
-      state.list = data.map(item => {
+      state.list = data.map((item) => {
         return {
           id: item.addressId,
           name: item.userName,
           tel: item.userPhone,
           address: `${item.provinceName} ${item.cityName} ${item.regionName} ${item.detailAddress}`,
-          isDefault: !!item.defaultFlag
+          isDefault: !!item.defaultFlag,
         }
       })
     })
 
     const onAdd = () => {
-      router.push({ path: '/address-edit', query: { type: 'add', from: state.from }})
+      router.push({
+        path: '/address-edit',
+        query: { type: 'add', from: state.from },
+      })
     }
 
     const onEdit = (item) => {
-      router.push({ path: 'address-edit', query: { type: 'edit', addressId: item.id, from: state.from }})
+      router.push({
+        path: 'address-edit',
+        query: { type: 'edit', addressId: item.id, from: state.from },
+      })
     }
 
     const select = (item) => {
-      router.push({ path: 'create-order', query: { addressId: item.id, from: state.from }})
+      router.push({
+        path: 'create-order',
+        query: { addressId: item.id, from: state.from },
+      })
     }
 
     return {
       ...toRefs(state),
       onAdd,
       onEdit,
-      select
+      select,
     }
-  }
+  },
 }
 </script>
 
 <style lang="less">
-  @import '../common/style/mixin';
-  .address-box {
-    .van-radio__icon {
-      display: none;
-    }
-    .address-item {
-      .van-button {
-        background: @primary;
-        border-color: @primary;
-      }
+@import '../common/style/mixin';
+.address-box {
+  .van-radio__icon {
+    display: none;
+  }
+  .address-item {
+    .van-button {
+      background: @primary;
+      border-color: @primary;
     }
   }
+}
 </style>

@@ -5,121 +5,143 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      redirect: '/home'
+      redirect: '/home',
     },
     {
       path: '/home',
       name: 'home',
-      component: () => import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
+      component: () =>
+        import(/* webpackChunkName: "home" */ '@/views/Home.vue'),
       meta: {
-        index: 1
-      }
+        index: 1,
+      },
     },
     {
       path: '/login',
       name: 'login',
-      component: () => import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
+      component: () =>
+        import(/* webpackChunkName: "login" */ '@/views/Login.vue'),
       meta: {
-        index: 1
-      }
+        index: 1,
+      },
     },
     {
       path: '/about',
       name: 'about',
-      component: () => import(/* webpackChunkName: "about" */ '@/views/About.vue'),
+      component: () =>
+        import(/* webpackChunkName: "about" */ '@/views/About.vue'),
       meta: {
-        index: 2
-      }
+        index: 2,
+      },
     },
     {
       path: '/category',
       name: 'category',
-      component: () => import(/* webpackChunkName: "category" */ '@/views/Category.vue'),
+      component: () =>
+        import(/* webpackChunkName: "category" */ '@/views/Category.vue'),
       meta: {
-        index: 1
-      }
+        index: 1,
+      },
     },
     {
       path: '/product-list',
       name: 'product-list',
-      component: () => import(/* webpackChunkName: "product-list" */ '@/views/ProductList.vue'),
+      component: () =>
+        import(
+          /* webpackChunkName: "product-list" */ '@/views/ProductList.vue'
+        ),
       meta: {
-        index: 2
-      }
+        index: 2,
+      },
     },
     {
       path: '/product/:id',
       name: 'product',
-      component: () => import(/* webpackChunkName: "product" */ '@/views/ProductDetail.vue'),
+      component: () =>
+        import(/* webpackChunkName: "product" */ '@/views/ProductDetail.vue'),
       meta: {
-        index: 3
-      }
+        index: 3,
+      },
     },
     {
       path: '/cart',
       name: 'cart',
-      component: () => import(/* webpackChunkName: "cart" */ '@/views/Cart.vue'),
+      component: () =>
+        import(/* webpackChunkName: "cart" */ '@/views/Cart.vue'),
       meta: {
-        index: 1
-      }
+        index: 1,
+      },
     },
     {
       path: '/create-order',
       name: 'create-order',
-      component: () => import(/* webpackChunkName: "create-order" */ '@/views/CreateOrder.vue'),
+      component: () =>
+        import(
+          /* webpackChunkName: "create-order" */ '@/views/CreateOrder.vue'
+        ),
       meta: {
-        index: 2
-      }
+        index: 2,
+      },
     },
     {
       path: '/order',
       name: 'order',
-      component: () => import(/* webpackChunkName: "order" */ '@/views/Order.vue'),
+      component: () =>
+        import(/* webpackChunkName: "order" */ '@/views/Order.vue'),
       meta: {
-        index: 2
-      }
+        index: 2,
+      },
     },
     {
       path: '/order-detail',
       name: 'order-detail',
-      component: () => import(/* webpackChunkName: "order-detail" */ '@/views/OrderDetail.vue'),
+      component: () =>
+        import(
+          /* webpackChunkName: "order-detail" */ '@/views/OrderDetail.vue'
+        ),
       meta: {
-        index: 3
-      }
+        index: 3,
+      },
     },
     {
       path: '/user',
       name: 'user',
-      component: () => import(/* webpackChunkName: "user" */ '@/views/User.vue'),
+      component: () =>
+        import(/* webpackChunkName: "user" */ '@/views/User.vue'),
       meta: {
-        index: 1
-      }
+        index: 1,
+      },
     },
     {
       path: '/setting',
       name: 'setting',
-      component: () => import(/* webpackChunkName: "setting" */ '@/views/Setting.vue'),
+      component: () =>
+        import(/* webpackChunkName: "setting" */ '@/views/Setting.vue'),
       meta: {
-        index: 2
-      }
+        index: 2,
+      },
     },
     {
       path: '/address',
       name: 'address',
-      component: () => import(/* webpackChunkName: "address" */ '@/views/Address.vue'),
+      component: () =>
+        import(/* webpackChunkName: "address" */ '@/views/Address.vue'),
       meta: {
-        index: 2
-      }
+        index: 2,
+      },
     },
     {
       path: '/address-edit',
       name: 'address-edit',
-      component: () => import(/* webpackChunkName: "address-edit" */ '@/views/AddressEdit.vue'),
+      component: () =>
+        import(
+          /* webpackChunkName: "address-edit" */ '@/views/AddressEdit.vue'
+        ),
       meta: {
-        index: 3
-      }
+        index: 3,
+      },
     },
-  ]
+  ],
 })
 
 export default router

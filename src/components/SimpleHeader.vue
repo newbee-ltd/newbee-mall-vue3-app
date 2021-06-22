@@ -25,16 +25,16 @@ export default {
   props: {
     name: {
       type: String,
-      default: ''
+      default: '',
     },
     back: {
       type: String,
-      default: ''
+      default: '',
     },
     noback: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   emits: ['callback'],
   setup(props, ctx) {
@@ -50,31 +50,31 @@ export default {
     }
     return {
       goBack,
-      isback
+      isback,
     }
-  }
+  },
 }
 </script>
 
 <style lang="less" scoped>
-  @import '../common/style/mixin';
-  .simple-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10000;
-    .fj();
-    .wh(100%, 44px);
-    line-height: 44px;
-    padding: 0 10px;
-    .boxSizing();
-    color: #252525;
-    background: #fff;
-    .simple-header-name {
-      font-size: 14px;
-    }
+@import '../common/style/mixin';
+.simple-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+  .fj();
+  .wh(100%, 44px);
+  line-height: 44px;
+  padding: 0 10px;
+  .boxSizing();
+  color: #252525;
+  background: #fff;
+  .simple-header-name {
+    font-size: 14px;
   }
-  .block {
-    height: 44px;
-  }
+}
+.block {
+  height: 44px;
+}
 </style>
