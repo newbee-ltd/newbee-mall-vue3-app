@@ -87,7 +87,7 @@ newbee-mall 项目是一套电商系统，包括 newbee-mall 商城系统及 new
 > 大家有任何问题或者建议都可以在 [issues](https://github.com/newbee-ltd/newbee-mall-vue3-app/issues) 中反馈给我，我会慢慢完善这个项目。
 
 - 我的邮箱：2449207463@qq.com
-- QQ技术交流群：932227898
+- QQ技术交流群：932227898 552142710
 
 ## 软件著作权
 
