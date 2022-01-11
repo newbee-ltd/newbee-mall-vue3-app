@@ -149,7 +149,7 @@ export default {
       const token = getLocal('token')
       if (token) {
         state.isLogin = true
-        // 获取购物车数据
+        // 获取购物车数据.
         store.dispatch('updateCart')
       }
       Toast.loading({
