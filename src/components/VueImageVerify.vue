@@ -3,7 +3,7 @@
     <canvas ref="verify" :width="width" :height="height" @click="handleDraw"></canvas>
   </div>
 </template>
-n 
+
 <script type="text/ecmascript-6">
 import { reactive, onMounted, ref, toRefs } from 'vue'
 export default {

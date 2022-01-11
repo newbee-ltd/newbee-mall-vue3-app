@@ -83,6 +83,7 @@ import navBar from '@/components/NavBar'
 import { getHome } from '@/service/home'
 import { getLocal } from '@/common/js/utils'
 import { Toast } from 'vant'
+import { useStore  } from 'vuex'
 export default {
   name: 'home',
   components: {
@@ -90,6 +91,7 @@ export default {
     navBar
   },
   setup() {
+    const store = useStore()
     const router = useRouter()
     const state = reactive({
       swiperList: [], // 轮播图列表
@@ -147,6 +149,8 @@ export default {
       const token = getLocal('token')
       if (token) {
         state.isLogin = true
+        // 获取购物车数据
+        store.dispatch('updateCart')
       }
       Toast.loading({
         message: '加载中...',
