@@ -8,7 +8,7 @@ import registerApp  from './utils/registerApp'
 
 const app = createApp(App) // 创建实例
 
-registerApp(app) // 对app进行初始化
+app.use(registerApp) // 对app进行初始化
 app.use(router)
 app.use(store)
 
