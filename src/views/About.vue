@@ -6,7 +6,7 @@
  * Copyright (c) 2020 陈尼克 all rights reserved.
  * 版权所有，侵权必究！
  *-->
-<template>
+ <template>
   <div class="about">
     <s-header :name="'关于我们'"></s-header>
     <div class="about-body">
@@ -28,13 +28,8 @@
   </div>
 </template>
 
-<script>
-import sHeader from '@/components/SimpleHeader'
-export default {
-  components: {
-    sHeader
-  },
-}
+<script setup>
+import sHeader from '@/components/SimpleHeader.vue'
 </script>
 
 <style lang="less" scoped>

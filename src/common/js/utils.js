@@ -7,7 +7,7 @@
  * 版权所有，侵权必究！
  */
 
-export function getQueryString(name) {
+ export function getQueryString(name) {
   var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
   var r = window.location.search.substr(1).match(reg);
   if(r != null) {

@@ -14,24 +14,24 @@
     <div class="order-status">
       <div class="status-item">
         <label>订单状态：</label>
-        <span>{{ detail.orderStatusString }}</span>
+        <span>{{ state.detail.orderStatusString }}</span>
       </div>
       <div class="status-item">
         <label>订单编号：</label>
-        <span>{{ detail.orderNo }}</span>
+        <span>{{ state.detail.orderNo }}</span>
       </div>
       <div class="status-item">
         <label>下单时间：</label>
-        <span>{{ detail.createTime }}</span>
+        <span>{{ state.detail.createTime }}</span>
       </div>
-      <van-button v-if="detail.orderStatus == 3" style="margin-bottom: 10px" color="#1baeae" block @click="handleConfirmOrder(detail.orderNo)">确认收货</van-button>
-      <van-button v-if="detail.orderStatus == 0" style="margin-bottom: 10px" color="#1baeae" block @click="showPayFn">去支付</van-button>
-      <van-button v-if="!(detail.orderStatus < 0 || detail.orderStatus == 4)" block @click="handleCancelOrder(detail.orderNo)">取消订单</van-button>
+      <van-button v-if="state.detail.orderStatus == 3" style="margin-bottom: 10px" color="#1baeae" block @click="handleConfirmOrder(state.detail.orderNo)">确认收货</van-button>
+      <van-button v-if="state.detail.orderStatus == 0" style="margin-bottom: 10px" color="#1baeae" block @click="showPayFn">去支付</van-button>
+      <van-button v-if="!(state.detail.orderStatus < 0 || state.detail.orderStatus == 4)" block @click="handleCancelOrder(state.detail.orderNo)">取消订单</van-button>
     </div>
     <div class="order-price">
       <div class="price-item">
         <label>商品金额：</label>
-        <span>¥ {{ detail.totalPrice }}</span>
+        <span>¥ {{ state.detail.totalPrice }}</span>
       </div>
       <div class="price-item">
         <label>配送方式：</label>
@@ -39,7 +39,7 @@
       </div>
     </div>
     <van-card
-      v-for="item in detail.newBeeMallOrderItemVOS"
+      v-for="item in state.detail.newBeeMallOrderItemVOS"
       :key="item.goodsId"
       style="background: #fff"
       :num="item.goodsCount"
@@ -49,106 +49,87 @@
       :thumb="$filters.prefix(item.goodsCoverImg)"
     />
     <van-popup
-      v-model:show="showPay"
+      v-model:show="state.showPay"
       position="bottom"
       :style="{ height: '24%' }"
     >
       <div :style="{ width: '90%', margin: '0 auto', padding: '20px 0' }">
-        <van-button :style="{ marginBottom: '10px' }" color="#1989fa" block @click="handlePayOrder(detail.orderNo, 1)">支付宝支付</van-button>
-        <van-button color="#4fc08d" block @click="handlePayOrder(detail.orderNo, 2)">微信支付</van-button>
+        <van-button :style="{ marginBottom: '10px' }" color="#1989fa" block @click="handlePayOrder(state.detail.orderNo, 1)">支付宝支付</van-button>
+        <van-button color="#4fc08d" block @click="handlePayOrder(state.detail.orderNo, 2)">微信支付</van-button>
       </div>
     </van-popup>
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive, toRefs, onMounted } from 'vue'
-import sHeader from '@/components/SimpleHeader'
+import sHeader from '@/components/SimpleHeader.vue'
 import { getOrderDetail, cancelOrder, confirmOrder, payOrder } from '@/service/order'
-import { Dialog, Toast } from 'vant'
+import { showConfirmDialog, showLoadingToast, closeToast, showSuccessToast, closeDialog } from 'vant'
 import { useRoute } from 'vue-router'
-export default {
-  name: 'OrderDetail',
-  components: {
-    sHeader
-  },
-  setup() {
-    const route = useRoute()
-    const state = reactive({
-      detail: {},
-      showPay: false
+const route = useRoute()
+const state = reactive({
+  detail: {},
+  showPay: false
+})
+
+onMounted(() => {
+  init()
+})
+
+const init = async () => {
+  showLoadingToast({
+    message: '加载中...',
+    forbidClick: true
+  });
+  const { id } = route.query
+  const { data } = await getOrderDetail(id)
+  state.detail = data
+  closeToast()
+}
+
+const handleCancelOrder = (id) => {
+  showConfirmDialog({
+    title: '确认取消订单？',
+  }).then(() => {
+    cancelOrder(id).then(res => {
+      if (res.resultCode == 200) {
+        showSuccessToast('删除成功')
+        init()
+      }
     })
+  }).catch(() => {
+    // on cancel
+  });
+}
 
-    onMounted(() => {
-      init()
+const handleConfirmOrder = (id) => {
+  showConfirmDialog({
+    title: '是否确认订单？',
+  }).then(() => {
+    confirmOrder(id).then(res => {
+      if (res.resultCode == 200) {
+        showSuccessToast('确认成功')
+        init()
+      }
     })
+  }).catch(() => {
+    // on cancel
+  });
+}
 
-    const init = async () => {
-      Toast.loading({
-        message: '加载中...',
-        forbidClick: true
-      });
-      const { id } = route.query
-      const { data } = await getOrderDetail(id)
-      state.detail = data
-      Toast.clear()
-    }
+const showPayFn = () => {
+  state.showPay = true
+}
 
-    const handleCancelOrder = (id) => {
-      Dialog.confirm({
-        title: '确认取消订单？',
-      }).then(() => {
-        cancelOrder(id).then(res => {
-          if (res.resultCode == 200) {
-            Toast('删除成功')
-            init()
-          }
-        })
-      }).catch(() => {
-        // on cancel
-      });
-    }
+const handlePayOrder = async (id, type) => {
+  await payOrder({ orderNo: id, payType: type })
+  state.showPay = false
+  init()
+}
 
-    const handleConfirmOrder = (id) => {
-      Dialog.confirm({
-        title: '是否确认订单？',
-      }).then(() => {
-        confirmOrder(id).then(res => {
-          if (res.resultCode == 200) {
-            Toast('确认成功')
-            init()
-          }
-        })
-      }).catch(() => {
-        // on cancel
-      });
-    }
-
-    const showPayFn = () => {
-      state.showPay = true
-    }
-
-    const handlePayOrder = async (id, type) => {
-      Toast.loading
-      await payOrder({ orderNo: id, payType: type })
-      state.showPay = false
-      init()
-    }
-
-    const close = () => {
-      Dialog.close()
-    }
-
-    return {
-      ...toRefs(state),
-      handleCancelOrder,
-      handleConfirmOrder,
-      showPayFn,
-      handlePayOrder,
-      close
-    }
-
-  }
+const close = () => {
+  closeDialog
 }
 </script>
 

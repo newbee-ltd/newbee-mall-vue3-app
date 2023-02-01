@@ -1,25 +1,18 @@
 import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import { ActionBar, ActionBarIcon, ActionBarButton, Divider, Popup, Overlay, Loading, Dialog, ContactCard, Form, AddressEdit, AddressList, Field, CellGroup, Cell, SwipeCell, Icon, Stepper, Card, Checkbox, CheckboxGroup, Button, Swipe, SwipeItem, PullRefresh, List, Tab, Tabs, SubmitBar, Toast, Skeleton } from 'vant'
+
 import App from './App.vue'
-import store from './store'
 import router from './router'
 import 'lib-flexible/flexible'
-import 'vant/lib/index.css'; // 全局引入样式
 
-const app = createApp(App) // 创建实例
+import './assets/main.css'
+import './common/style/theme.css'
 
-// 全局过滤器
-app.config.globalProperties.$filters = {
-  prefix(url) {
-    if (url && url.startsWith('http')) {
-      return url
-    } else {
-      url = `http://backend-api-01.newbee.ltd${url}`
-      return url
-    }
-  }
-}
+const app = createApp(App)
 
+app.use(createPinia())
+app.use(router)
 app.use(ActionBarButton)
   .use(ActionBarIcon)
   .use(ActionBar)
@@ -52,7 +45,16 @@ app.use(ActionBarButton)
   .use(CheckboxGroup)
   .use(Skeleton)
 
-app.use(router)
-app.use(store)
+// 全局过滤器
+app.config.globalProperties.$filters = {
+  prefix(url) {
+    if (url && url.startsWith('http')) {
+      return url
+    } else {
+      url = `http://backend-api-01.newbee.ltd${url}`
+      return url
+    }
+  }
+}
 
 app.mount('#app')

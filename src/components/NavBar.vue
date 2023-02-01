@@ -20,7 +20,7 @@
         <span>分类</span>
       </router-link>
       <router-link  class="nav-list-item" to="cart">
-        <van-icon  name="shopping-cart-o" :badge="!count ? '' : count" />
+        <i><van-icon  name="shopping-cart-o" :badge="!count ? '' : count" /></i>
         <span>购物车</span>
       </router-link>
       <router-link  class="nav-list-item" to="user">
@@ -31,31 +31,23 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { useStore } from 'vuex'
+import { useCartStore } from '@/stores/cart'
 import { getLocal } from '@/common/js/utils'
-export default {
-  setup() {
-    const route = useRoute()
-    const store = useStore()
-    onMounted(() => {
-      const token = getLocal('token')
-      const path = route.path
-      if (token && !['/home', '/category'].includes(path)) {
-        store.dispatch('updateCart')
-      }
-    })
-    const count = computed(() => {
-      return store.state.cartCount
-    })
-
-    return {
-      count
-    }
+const route = useRoute()
+const cart = useCartStore()
+onMounted(() => {
+  const token = getLocal('token')
+  const path = route.path
+  if (token && !['/home', '/category'].includes(path)) {
+    cart.updateCart()
   }
-}
+})
+const count = computed(() => {
+  return cart.count
+})
 </script>
 
 <style lang="less" scoped >

@@ -18,28 +18,28 @@
           <input
             type="text"
             class="search-title"
-            v-model="keyword"/>
+            v-model="state.keyword"/>
         </div>
         <span class="search-btn" @click="getSearch">搜索</span>
       </header>
-      <van-tabs type="card" color="#1baeae" @click="changeTab" >
+      <van-tabs type="card" color="#1baeae" @click-tab="changeTab" >
         <van-tab title="推荐" name=""></van-tab>
         <van-tab title="新品" name="new"></van-tab>
         <van-tab title="价格" name="price"></van-tab>
       </van-tabs>
     </div>
     <div class="content">
-      <van-pull-refresh v-model="refreshing" @refresh="onRefresh" class="product-list-refresh">
+      <van-pull-refresh v-model="state.refreshing" @refresh="onRefresh" class="product-list-refresh">
         <van-list
-          v-model:loading="loading"
-          :finished="finished"
-          :finished-text="productList.length ? '没有更多了' : '搜索想要的商品'"
+          v-model:loading="state.loading"
+          :finished="state.finished"
+          :finished-text="state.productList.length ? '没有更多了' : '搜索想要的商品'"
           @load="onLoad"
           @offset="10"
         >
           <!-- <p v-for="item in list" :key="item">{{ item }}</p> -->
-          <template v-if="productList.length">
-            <div class="product-item" v-for="(item, index) in productList" :key="index" @click="productDetail(item)">
+          <template v-if="state.productList.length">
+            <div class="product-item" v-for="(item, index) in state.productList" :key="index" @click="productDetail(item)">
               <img :src="$filters.prefix(item.goodsCoverImg)" />
               <div class="product-info">
                 <p class="name">{{item.goodsName}}</p>
@@ -55,95 +55,75 @@
   </div>
 </template>
 
-<script>
-import { reactive, toRefs } from 'vue'
+<script setup>
+import { reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { search } from '@/service/good'
-export default {
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const state = reactive({
-      keyword: route.query.keyword || '',
-      searchBtn: false,
-      seclectActive: false,
-      refreshing: false,
-      list: [],
-      loading: false,
-      finished: false,
-      productList: [],
-      totalPage: 0,
-      page: 1,
-      orderBy: ''
-    })
-
-    // onMounted(() => {
-    //   init()
-    // })
-
-    const init = async () => {
-      const { categoryId } = route.query
-      if (!categoryId && !state.keyword) {
-        // Toast.fail('请输入关键词')
-        state.finished = true
-        state.loading = false;
-        return
-      }
-      const { data, data: { list } } = await search({ pageNumber: state.page, goodsCategoryId: categoryId, keyword: state.keyword, orderBy: state.orderBy })
-      
-      state.productList = state.productList.concat(list)
-      state.totalPage = data.totalPage
-      state.loading = false;
-      if (state.page >= data.totalPage) state.finished = true
-    }
-
-    const goBack = () => {
-      router.go(-1)
-    }
-
-    const productDetail = (item) => {
-      router.push({ path: `/product/${item.goodsId}` })
-    }
-
-    const getSearch = () => {
-      onRefresh()
-    }
-
-    const onLoad = () => {
-      if (!state.refreshing && state.page < state.totalPage) {
-        state.page = state.page + 1
-      }
-      if (state.refreshing) {
-        state.productList = [];
-        state.refreshing = false;
-      }
-      init()
-    }
-
-    const onRefresh = () => {
-      state.refreshing = true
-      state.finished = false
-      state.loading = true
-      state.page = 1
-      onLoad()
-    }
-
-    const changeTab = (name) => {
-      console.log('name', name)
-      state.orderBy = name
-      onRefresh()
-    }
-
-    return {
-      ...toRefs(state),
-      goBack,
-      productDetail,
-      getSearch,
-      changeTab,
-      onLoad,
-      onRefresh
-    }
+const route = useRoute()
+const router = useRouter()
+const state = reactive({
+  keyword: route.query.keyword || '',
+  searchBtn: false,
+  seclectActive: false,
+  refreshing: false,
+  list: [],
+  loading: false,
+  finished: false,
+  productList: [],
+  totalPage: 0,
+  page: 1,
+  orderBy: ''
+})
+const init = async () => {
+  const { categoryId } = route.query
+  if (!categoryId && !state.keyword) {
+    state.finished = true
+    state.loading = false;
+    return
   }
+  const { data, data: { list } } = await search({ pageNumber: state.page, goodsCategoryId: categoryId, keyword: state.keyword, orderBy: state.orderBy })
+  
+  state.productList = state.productList.concat(list)
+  state.totalPage = data.totalPage
+  state.loading = false;
+  if (state.page >= data.totalPage) state.finished = true
+}
+
+const goBack = () => {
+  router.go(-1)
+}
+
+const productDetail = (item) => {
+  router.push({ path: `/product/${item.goodsId}` })
+}
+
+const getSearch = () => {
+  onRefresh()
+}
+
+const onLoad = () => {
+  if (!state.refreshing && state.page < state.totalPage) {
+    state.page = state.page + 1
+  }
+  if (state.refreshing) {
+    state.productList = [];
+    state.refreshing = false;
+  }
+  init()
+}
+
+const onRefresh = () => {
+  state.refreshing = true
+  state.finished = false
+  state.loading = true
+  state.page = 1
+  onLoad()
+}
+
+const changeTab = ({ name }) => {
+  console.log('name', name)
+  state.orderBy = name
+  onRefresh()
 }
 </script>
 
@@ -176,7 +156,6 @@ export default {
       .header-search {
         display: flex;
         width: 76%;
-        height: 20px;
         line-height: 20px;
         margin: 10px 0;
         padding: 5px 0;

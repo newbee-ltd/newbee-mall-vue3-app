@@ -12,8 +12,8 @@
   <div class="cart-box">
     <s-header :name="'购物车'" :noback="true"></s-header>
     <div class="cart-body">
-      <van-checkbox-group @change="groupChange" v-model="result" ref="checkboxGroup">
-        <van-swipe-cell :right-width="50" v-for="(item, index) in list" :key="index">
+      <van-checkbox-group @change="groupChange" v-model="state.result" ref="checkboxGroup">
+        <van-swipe-cell :right-width="50" v-for="(item, index) in state.list" :key="index">
           <div class="good-item">
             <van-checkbox :name="item.cartItemId" />
             <div class="good-img"><img :src="$filters.prefix(item.goodsCoverImg)" alt=""></div>
@@ -49,15 +49,15 @@
       </van-checkbox-group>
     </div>
     <van-submit-bar
-      v-if="list.length > 0"
+      v-if="state.list.length > 0"
       class="submit-all van-hairline--top"
       :price="total * 100"
       button-text="结算"
       @submit="onSubmit"
     >
-      <van-checkbox @click="allCheck" v-model:checked="checkAll">全选</van-checkbox>
+      <van-checkbox @click="allCheck" v-model:checked="state.checkAll">全选</van-checkbox>
     </van-submit-bar>
-    <div class="empty" v-if="!list.length">
+    <div class="empty" v-if="!state.list.length">
       <img class="empty-cart" src="https://s.yezgea02.com/1604028375097/empty-car.png" alt="空购物车">
       <div class="title">购物车空空如也</div>
       <van-button round color="#1baeae" type="primary" @click="goTo" block>前往选购</van-button>
@@ -66,132 +66,107 @@
   </div>
 </template>
 
-<script>
-import { reactive, onMounted, computed, toRefs } from 'vue'
+<script setup>
+import { reactive, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
-import { Toast } from 'vant'
-import navBar from '@/components/NavBar'
-import sHeader from '@/components/SimpleHeader'
+import { useCartStore } from '@/stores/cart'
+import { showToast, showLoadingToast, closeToast, showFailToast } from 'vant'
+import navBar from '@/components/NavBar.vue'
+import sHeader from '@/components/SimpleHeader.vue'
 import { getCart, deleteCartItem, modifyCart } from '@/service/cart'
 
-export default {
-  components: {
-    navBar,
-    sHeader
-  },
-  setup() {
-    const router = useRouter()
-    const store = useStore()
-    const state = reactive({
-      checked: false,
-      list: [],
-      all: false,
-      result: [],
-      checkAll: true
-    })
+const router = useRouter()
+const cart = useCartStore()
+const state = reactive({
+  checked: false,
+  list: [],
+  all: false,
+  result: [],
+  checkAll: true
+})
 
-    onMounted(() => {
-      init()
-    })
+onMounted(() => {
+  init()
+})
 
-    const init = async () => {
-      Toast.loading({ message: '加载中...', forbidClick: true });
-      const { data } = await getCart({ pageNumber: 1 })
-      state.list = data
-      state.result = data.map(item => item.cartItemId)
-      Toast.clear()
+const init = async () => {
+  showLoadingToast({ message: '加载中...', forbidClick: true });
+  const { data } = await getCart({ pageNumber: 1 })
+  state.list = data
+  state.result = data.map(item => item.cartItemId)
+  closeToast()
+}
+
+const total = computed(() => {
+  let sum = 0
+  let _list = state.list.filter(item => state.result.includes(item.cartItemId))
+  _list.forEach(item => {
+    sum += item.goodsCount * item.sellingPrice
+  })
+  return sum
+})
+
+const goBack = () => {
+  router.go(-1)
+}
+
+const goTo = () => {
+  router.push({ path: '/home' })
+}
+
+const onChange = async (value, detail) => {
+  if (value > 5) {
+    showFailToast('超出单个商品的最大购买数量')
+    return
+  }
+  if (value < 1) {
+    showFailToast('商品不得小于0')
+    return
+  }
+  if (state.list.filter(item => item.cartItemId == detail.name)[0].goodsCount == value) return
+  showLoadingToast({ message: '修改中...', forbidClick: true });
+  const params = {
+    cartItemId: detail.name,
+    goodsCount: value
+  }
+  await modifyCart(params)
+  state.list.forEach(item => {
+    if (item.cartItemId == detail.name) {
+      item.goodsCount = value
     }
+  })
+  closeToast()
+}
 
-    const total = computed(() => {
-      let sum = 0
-      let _list = state.list.filter(item => state.result.includes(item.cartItemId))
-      _list.forEach(item => {
-        sum += item.goodsCount * item.sellingPrice
-      })
-      return sum
-    })
+const onSubmit = async () => {
+  if (state.result.length == 0) {
+    showFailToast('请选择商品进行结算')
+    return
+  }
+  const params = JSON.stringify(state.result)
+  router.push({ path: '/create-order', query: { cartItemIds: params } })
+}
 
-    const goBack = () => {
-      router.go(-1)
-    }
+const deleteGood = async (id) => {
+  await deleteCartItem(id)
+  cart.updateCart()
+  init()
+}
 
-    const goTo = () => {
-      router.push({ path: '/home' })
-    }
+const groupChange = (result) => {
+  if (result.length == state.list.length) {
+    state.checkAll = true
+  } else {
+    state.checkAll = false
+  }
+  state.result = result
+}
 
-    const onChange = async (value, detail) => {
-      if (value > 5) {
-        Toast.fail('超出单个商品的最大购买数量')
-        return
-      }
-      if (value < 1) {
-        Toast.fail('商品不得小于0')
-        return
-      }
-      if (state.list.filter(item => item.cartItemId == detail.name)[0].goodsCount == value) return
-      Toast.loading({ message: '修改中...', forbidClick: true });
-      const params = {
-        cartItemId: detail.name,
-        goodsCount: value
-      }
-      await modifyCart(params)
-      state.list.forEach(item => {
-        if (item.cartItemId == detail.name) {
-          item.goodsCount = value
-        }
-      })
-      Toast.clear();
-    }
-
-    const onSubmit = async () => {
-      if (state.result.length == 0) {
-        Toast.fail('请选择商品进行结算')
-        return
-      }
-      const params = JSON.stringify(state.result)
-      router.push({ path: '/create-order', query: { cartItemIds: params } })
-    }
-
-    const deleteGood = async (id) => {
-      await deleteCartItem(id)
-      store.dispatch('updateCart')
-      init()
-    }
-
-    const groupChange = (result) => {
-      console.log(1)
-      if (result.length == state.list.length) {
-        console.log(2)
-        state.checkAll = true
-      } else {
-        console.log(3)
-        state.checkAll = false
-      }
-      state.result = result
-    }
-    
-    const allCheck = () => {
-      if (!state.checkAll) {
-        state.result = state.list.map(item => item.cartItemId)
-      } else {
-        state.result = []
-      }
-    }
-
-    
-
-    return {
-      ...toRefs(state),
-      total,
-      goBack,
-      goTo,
-      onChange,
-      onSubmit,
-      deleteGood,
-      groupChange,
-      allCheck
-    }
+const allCheck = () => {
+  if (!state.checkAll) {
+    state.result = state.list.map(item => item.cartItemId)
+  } else {
+    state.result = []
   }
 }
 </script>
@@ -274,7 +249,7 @@ export default {
       }
     }
     .submit-all {
-      margin-bottom: 50px;
+      margin-bottom: 64px;
       .van-checkbox {
         margin-left: 10px
       }

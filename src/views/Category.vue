@@ -21,23 +21,23 @@
       </header>
       <nav-bar></nav-bar>
       <div class="search-wrap" ref="searchWrap">
-        <list-scroll :scroll-data="categoryData" class="nav-side-wrapper">
+        <list-scroll :scroll-data="state.categoryData" class="nav-side-wrapper">
           <ul class="nav-side">
             <li
-              v-for="item in categoryData"
+              v-for="item in state.categoryData"
               :key="item.categoryId"
               v-text="item.categoryName"
-              :class="{'active' : currentIndex == item.categoryId}"
+              :class="{'active' : state.currentIndex == item.categoryId}"
               @click="selectMenu(item.categoryId)"
             ></li>
           </ul>
         </list-scroll>
         <div class="search-content">
-          <list-scroll :scroll-data="categoryData" >
+          <list-scroll :scroll-data="state.categoryData" >
             <div class="swiper-container">
               <div class="swiper-wrapper">
-                <template v-for="(category, index) in categoryData">
-                  <div class="swiper-slide" v-if="currentIndex == category.categoryId" :key="index">
+                <template v-for="(category, index) in state.categoryData">
+                  <div class="swiper-slide" v-if="state.currentIndex == category.categoryId" :key="index">
                     <!-- <img class="category-main-img" :src="category.mainImgUrl" v-if="category.mainImgUrl"/> -->
                     <div class="category-list" v-for="(products, index) in category.secondLevelCategoryVOS" :key="index">
                       <p class="catogory-title">{{products.categoryName}}</p>
@@ -57,57 +57,42 @@
   </div>
 </template>
 
-<script>
-import { reactive, onMounted, ref, toRefs } from 'vue'
+<script setup>
+import { reactive, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import navBar from '@/components/NavBar'
-import listScroll from '@/components/ListScroll'
-import { getCategory } from "@/service/good";
-import { Toast } from 'vant'
-export default {
-  components: {
-    navBar,
-    listScroll
-  },
-  setup() {
-    const router = useRouter()
-    // composition API 获取 refs 的形式
-    const searchWrap = ref(null)
-    const state = reactive({
-      categoryData: [],
-      currentIndex: 15
-    })
+import navBar from '@/components/NavBar.vue'
+import listScroll from '@/components/ListScroll.vue'
+import { getCategory } from "@/service/good"
+import { showLoadingToast, closeToast } from 'vant'
+const router = useRouter()
+// composition API 获取 refs 的形式
+const searchWrap = ref(null)
+const state = reactive({
+  categoryData: [],
+  currentIndex: 15
+})
 
-    onMounted(async () => {
-      let $screenHeight = document.documentElement.clientHeight
-      console.log('searchWrap.value', searchWrap.value)
-      searchWrap.value.style.height = $screenHeight - 100 + 'px'
-      Toast.loading('加载中...')
-      const { data } = await getCategory()
-      Toast.clear()
-      state.categoryData = data
-    })
+onMounted(async () => {
+  let $screenHeight = document.documentElement.clientHeight
+  console.log('searchWrap.value', searchWrap.value)
+  searchWrap.value.style.height = $screenHeight - 100 + 'px'
+  showLoadingToast('加载中...')
+  const { data } = await getCategory()
+  closeToast()
+  state.categoryData = data
+})
 
-    const goHome = () => {
-      router.push({ path: 'home' })
-    }
+const goHome = () => {
+  router.push({ path: 'home' })
+}
 
-    const selectMenu = (index) => {
-      state.currentIndex = index
-    }
+const selectMenu = (index) => {
+  state.currentIndex = index
+}
 
-    const selectProduct = (item) => {
-      console.log('item', item.categoryId)
-      router.push({ path: '/product-list', query: { categoryId: item.categoryId } })
-    }
-    return {
-      ...toRefs(state),
-      goHome,
-      selectMenu,
-      selectProduct,
-      searchWrap
-    }
-  }
+const selectProduct = (item) => {
+  console.log('item', item.categoryId)
+  router.push({ path: '/product-list', query: { categoryId: item.categoryId } })
 }
 </script>
 <style lang="less" scoped>

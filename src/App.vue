@@ -10,39 +10,27 @@
 
 <template>
   <div id="app">
-    <router-view class="router-view" v-slot="{ Component }">
-      <transition :name="transitionName">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <RouterView />
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive, toRefs } from 'vue'
-import { useRouter } from 'vue-router'
-  export default {
-    setup() {
-      const router = useRouter()
-      const state = reactive({
-        transitionName: 'slide-left'
-      })
-      router.beforeEach((to, from) => {
-        if (to.meta.index > from.meta.index) {
-          state.transitionName = 'slide-left' // 向左滑动
-        } else if (to.meta.index < from.meta.index) {
-          // 由次级到主级
-          state.transitionName = 'slide-right'
-        } else {
-          state.transitionName = ''   // 同级无过渡效果
-        }
-      })
-
-      return {
-        ...toRefs(state)
-      }
-    }
+import { useRouter, RouterView } from 'vue-router'
+const router = useRouter()
+const state = reactive({
+  transitionName: 'slide-left'
+})
+router.beforeEach((to, from) => {
+  if (to.meta.index > from.meta.index) {
+    state.transitionName = 'slide-left' // 向左滑动
+  } else if (to.meta.index < from.meta.index) {
+    // 由次级到主级
+    state.transitionName = 'slide-right'
+  } else {
+    state.transitionName = ''   // 同级无过渡效果
   }
+})
 </script>
 
 <style lang="less">
@@ -101,3 +89,4 @@ html, body {
   z-index: 1000;
 }
 </style>
+

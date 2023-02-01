@@ -11,14 +11,14 @@
 <template>
   <div class="user-box">
     <s-header :name="'我的'"></s-header>
-    <van-skeleton title :avatar="true" :row="3" :loading="loading">
+    <van-skeleton title :avatar="true" :row="3" :loading="state.loading">
       <div class="user-info">
         <div class="info">
           <img src="https://s.yezgea02.com/1604040746310/aaaddd.png"/>
           <div class="user-desc">
-            <span>昵称：{{ user.nickName }}</span>
-            <span>登录名：{{ user.loginName }}</span>
-            <span class="name">个性签名：{{ user.introduceSign }}</span>
+            <span>昵称：{{ state.user.nickName }}</span>
+            <span>登录名：{{ state.user.loginName }}</span>
+            <span class="name">个性签名：{{ state.user.introduceSign }}</span>
           </div>
         </div>
       </div>
@@ -45,44 +45,30 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { reactive, onMounted, toRefs } from 'vue'
-import navBar from '@/components/NavBar'
-import sHeader from '@/components/SimpleHeader'
+import navBar from '@/components/NavBar.vue'
+import sHeader from '@/components/SimpleHeader.vue'
 import { getUserInfo } from '@/service/user'
 import { useRouter } from 'vue-router'
-export default {
-  components: {
-    navBar,
-    sHeader
-  },
-  setup() {
-    const router = useRouter()
-    const state = reactive({
-      user: {},
-      loading: true
-    })
+const router = useRouter()
+const state = reactive({
+  user: {},
+  loading: true
+})
 
-    onMounted(async () => {
-      const { data } = await getUserInfo()
-      state.user = data
-      state.loading = false
-    })
+onMounted(async () => {
+  const { data } = await getUserInfo()
+  state.user = data
+  state.loading = false
+})
 
-    const goBack = () => {
-      router.go(-1)
-    }
+const goBack = () => {
+  router.go(-1)
+}
 
-    const goTo = (r, query) => {
-      router.push({ path: r, query: query || {} })
-    }
-
-    return {
-      ...toRefs(state),
-      goBack,
-      goTo
-    }
-  }
+const goTo = (r, query) => {
+  router.push({ path: r, query: query || {} })
 }
 </script>
 

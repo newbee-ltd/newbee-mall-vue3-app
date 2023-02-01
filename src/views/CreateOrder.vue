@@ -13,16 +13,16 @@
     <s-header :name="'生成订单'" @callback="deleteLocal"></s-header>
     <div class="address-wrap">
       <div class="name" @click="goTo">
-        <span>{{ address.userName }} </span>
-        <span>{{ address.userPhone }}</span>
+        <span>{{ state.address.userName }} </span>
+        <span>{{ state.address.userPhone }}</span>
       </div>
       <div class="address">
-        {{ address.provinceName }} {{ address.cityName }} {{ address.regionName }} {{ address.detailAddress }}
+        {{ state.address.provinceName }} {{ state.address.cityName }} {{ state.address.regionName }} {{ state.address.detailAddress }}
       </div>
       <van-icon class="arrow" name="arrow" />
     </div>
     <div class="good">
-      <div class="good-item" v-for="(item, index) in cartList" :key="index">
+      <div class="good-item" v-for="(item, index) in state.cartList" :key="index">
         <div class="good-img"><img :src="$filters.prefix(item.goodsCoverImg)" alt=""></div>
         <div class="good-desc">
           <div class="good-title">
@@ -45,7 +45,7 @@
     <van-popup
       closeable
       :close-on-click-overlay="false"
-      v-model:show="showPay"
+      v-model:show="state.showPay"
       position="bottom"
       :style="{ height: '30%' }"
       @close="close"
@@ -58,101 +58,83 @@
   </div>
 </template>
 
-<script>
-import { reactive, onMounted, toRefs, computed } from 'vue'
-import sHeader from '@/components/SimpleHeader'
+<script setup>
+import { reactive, onMounted, computed } from 'vue'
+import sHeader from '@/components/SimpleHeader.vue'
 import { getByCartItemIds } from '@/service/cart'
 import { getDefaultAddress, getAddressDetail } from '@/service/address'
 import { createOrder, payOrder } from '@/service/order'
 import { setLocal, getLocal } from '@/common/js/utils'
-import { Toast } from 'vant'
+import { showLoadingToast, closeToast, showSuccessToast } from 'vant'
 import { useRoute, useRouter } from 'vue-router'
-export default {
-  components: {
-    sHeader
-  },
-  setup() {
-    const router = useRouter()
-    const route = useRoute()
-    const state = reactive({
-      cartList: [],
-      address: {},
-      showPay: false,
-      orderNo: '',
-      cartItemIds: []
-    })
+const router = useRouter()
+const route = useRoute()
+const state = reactive({
+  cartList: [],
+  address: {},
+  showPay: false,
+  orderNo: '',
+  cartItemIds: []
+})
 
-    onMounted(() => {
-      init()
-    })
-    
-    const init = async () => {
-      Toast.loading({ message: '加载中...', forbidClick: true });
-      const { addressId, cartItemIds } = route.query
-      const _cartItemIds = cartItemIds ? JSON.parse(cartItemIds) : JSON.parse(getLocal('cartItemIds'))
-      console.log('cartItemIds', cartItemIds)
-      setLocal('cartItemIds', JSON.stringify(_cartItemIds))
-      const { data: list } = await getByCartItemIds({ cartItemIds: _cartItemIds.join(',') })
-      const { data: address } = addressId ? await getAddressDetail(addressId) : await getDefaultAddress()
-      if (!address) {
-        router.push({ path: '/address' })
-        return
-      }
-      state.cartList = list
-      state.address = address
-      Toast.clear()
-    }
+onMounted(() => {
+  init()
+})
 
-    const goTo = () => {
-      router.push({ path: '/address', query: { cartItemIds: JSON.stringify(state.cartItemIds), from: 'create-order' }})
-    }
-
-    const deleteLocal = () => {
-      setLocal('cartItemIds', '')
-    }
-
-    const handleCreateOrder = async () => {
-      const params = {
-        addressId: state.address.addressId,
-        cartItemIds: state.cartList.map(item => item.cartItemId)
-      }
-      const { data } = await createOrder(params)
-      setLocal('cartItemIds', '')
-      state.orderNo = data
-      state.showPay = true
-    }
-
-    const close = () => {
-      router.push({ path: '/order' })
-    }
-
-    const handlePayOrder = async (type) => {
-      await payOrder({ orderNo: state.orderNo, payType: type })
-      Toast.success('支付成功')
-      setTimeout(() => {
-        router.push({ path: '/order' })
-      }, 2000)
-    }
-
-    const total = computed(() => {
-      let sum = 0
-      state.cartList.forEach(item => {
-        sum += item.goodsCount * item.sellingPrice
-      })
-      return sum
-    })
-
-    return {
-      ...toRefs(state),
-      goTo,
-      deleteLocal,
-      handleCreateOrder,
-      close,
-      handlePayOrder,
-      total
-    }
+const init = async () => {
+  showLoadingToast({ message: '加载中...', forbidClick: true });
+  const { addressId, cartItemIds } = route.query
+  const _cartItemIds = cartItemIds ? JSON.parse(cartItemIds) : JSON.parse(getLocal('cartItemIds'))
+  setLocal('cartItemIds', JSON.stringify(_cartItemIds))
+  const { data: list } = await getByCartItemIds({ cartItemIds: _cartItemIds.join(',') })
+  const { data: address } = addressId ? await getAddressDetail(addressId) : await getDefaultAddress()
+  if (!address) {
+    router.push({ path: '/address' })
+    return
   }
+  state.cartList = list
+  state.address = address
+  closeToast()
 }
+
+const goTo = () => {
+  router.push({ path: '/address', query: { cartItemIds: JSON.stringify(state.cartItemIds), from: 'create-order' }})
+}
+
+const deleteLocal = () => {
+  setLocal('cartItemIds', '')
+}
+
+const handleCreateOrder = async () => {
+  const params = {
+    addressId: state.address.addressId,
+    cartItemIds: state.cartList.map(item => item.cartItemId)
+  }
+  const { data } = await createOrder(params)
+  setLocal('cartItemIds', '')
+  state.orderNo = data
+  state.showPay = true
+}
+
+const close = () => {
+  router.push({ path: '/order' })
+}
+
+const handlePayOrder = async (type) => {
+  await payOrder({ orderNo: state.orderNo, payType: type })
+  showSuccessToast('支付成功')
+  setTimeout(() => {
+    router.push({ path: '/order' })
+  }, 2000)
+}
+
+const total = computed(() => {
+  let sum = 0
+  state.cartList.forEach(item => {
+    sum += item.goodsCount * item.sellingPrice
+  })
+  return sum
+})
 </script>
 
 <style lang="less" scoped>

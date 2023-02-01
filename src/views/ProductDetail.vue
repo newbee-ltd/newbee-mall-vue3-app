@@ -14,18 +14,18 @@
     <div class="detail-content">
       <div class="detail-swipe-wrap">
         <van-swipe class="my-swipe" indicator-color="#1baeae">
-          <van-swipe-item v-for="(item, index) in detail.goodsCarouselList" :key="index">
+          <van-swipe-item v-for="(item, index) in state.detail.goodsCarouselList" :key="index">
             <img :src="item" alt="">
           </van-swipe-item>
         </van-swipe>
       </div>
       <div class="product-info">
         <div class="product-title">
-          {{ detail.goodsName || '' }}
+          {{ state.detail.goodsName || '' }}
         </div>
         <div class="product-desc">免邮费 顺丰快递</div>
         <div class="product-price">
-          <span>¥{{ detail.sellingPrice || '' }}</span>
+          <span>¥{{ state.detail.sellingPrice || '' }}</span>
           <!-- <span>库存203</span> -->
         </div>
       </div>
@@ -36,7 +36,7 @@
           <li>安装服务</li>
           <li>常见问题</li>
         </ul>
-        <div class="product-content" v-html="detail.goodsDetailContent || ''"></div>
+        <div class="product-content" v-html="state.detail.goodsDetailContent || ''"></div>
       </div>
     </div>
     <van-action-bar>
@@ -48,79 +48,63 @@
   </div>
 </template>
 
-<script>
-import { reactive, onMounted, computed, toRefs, nextTick } from 'vue'
+<script setup>
+import { reactive, onMounted, computed, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { useStore } from 'vuex'
+import { useCartStore } from '@/stores/cart'
 import { getDetail } from '@/service/good'
 import { addCart } from '@/service/cart'
-import sHeader from '@/components/SimpleHeader'
-import { Toast } from 'vant'
+import sHeader from '@/components/SimpleHeader.vue'
+import { showSuccessToast } from 'vant'
 import { prefix } from '@/common/js/utils'
-export default {
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const store = useStore()
+const route = useRoute()
+const router = useRouter()
+const cart = useCartStore()
 
-    const state = reactive({
-      detail: {
-        goodsCarouselList: []
-      }
-    })
-
-    onMounted(async () => {
-      const { id } = route.params
-      const { data } = await getDetail(id)
-      data.goodsCarouselList = data.goodsCarouselList.map(i => prefix(i))
-      state.detail = data
-      store.dispatch('updateCart')
-    })
-
-    nextTick(() => {
-      // 一些和DOM有关的东西
-      const content = document.querySelector('.detail-content')
-      content.scrollTop = 0
-    })
-
-    const goBack = () => {
-      router.go(-1)
-    }
-
-    const goTo = () => {
-      router.push({ path: '/cart' })
-    }
-
-    const handleAddCart = async () => {
-      const { resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
-      if (resultCode == 200 ) Toast.success('添加成功')
-      store.dispatch('updateCart')
-    }
-
-    const goToCart = async () => {
-      await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
-      store.dispatch('updateCart')
-      router.push({ path: '/cart' })
-    }
-
-    const count = computed(() => {
-      console.log(111, store.state.cartCount)
-      return store.state.cartCount
-    })
-
-    return {
-      ...toRefs(state),
-      goBack,
-      goTo,
-      handleAddCart,
-      goToCart,
-      count
-    }
-  },
-  components: {
-    sHeader
+const state = reactive({
+  detail: {
+    goodsCarouselList: []
   }
+})
+
+onMounted(async () => {
+  const { id } = route.params
+  const { data } = await getDetail(id)
+  data.goodsCarouselList = data.goodsCarouselList.map(i => prefix(i))
+  state.detail = data
+  cart.updateCart()
+})
+
+nextTick(() => {
+  // 一些和DOM有关的东西
+  const content = document.querySelector('.detail-content')
+  content.scrollTop = 0
+})
+
+const goBack = () => {
+  router.go(-1)
 }
+
+const goTo = () => {
+  router.push({ path: '/cart' })
+}
+
+const handleAddCart = async () => {
+  const { resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
+  if (resultCode == 200 ) showSuccessToast('添加成功')
+  cart.updateCart()
+}
+
+const goToCart = async () => {
+  await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
+  cart.updateCart()
+  router.push({ path: '/cart' })
+}
+
+const count = computed(() => {
+  return cart.count
+})
+
 </script>
 
 <style lang="less">
