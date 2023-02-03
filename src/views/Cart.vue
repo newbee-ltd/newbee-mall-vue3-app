@@ -53,6 +53,7 @@
       class="submit-all van-hairline--top"
       :price="total * 100"
       button-text="结算"
+      button-type="primary"
       @submit="onSubmit"
     >
       <van-checkbox @click="allCheck" v-model:checked="state.checkAll">全选</van-checkbox>

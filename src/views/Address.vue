@@ -66,16 +66,17 @@ const init = async () => {
   })
 }
 
+// 前往添加地址页面
 const onAdd = () => {
-  router.push({ path: '/address-edit', query: { type: 'add', from: state.from }})
+  router.push({ path: 'address-edit', query: { type: 'add', from: state.from  } })
 }
-
+// 前往地址编辑页面
 const onEdit = (item) => {
-  router.push({ path: 'address-edit', query: { type: 'edit', addressId: item.id, from: state.from }})
+  router.push({ path: 'address-edit', query: { type: 'edit', addressId: item.id, from: state.from  } })
 }
-
-const select = (item) => {
-  router.push({ path: 'create-order', query: { addressId: item.id, from: state.from }})
+// 选择某个地址后，跳回订单生成页面
+const select = (item, index) => {
+  router.push({ path: 'create-order', query: { addressId: item.id, from: state.from  } })
 }
 </script>
 

@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { getCart } from '../service/cart'
+import { getCart } from '@/service/cart'
 export const useCartStore = defineStore('cart', () => {
   const count = ref(0)
   async function updateCart() {
