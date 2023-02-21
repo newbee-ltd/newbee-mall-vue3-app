@@ -16,16 +16,12 @@
   </van-swipe>
 </template>
 
-<script>
-export default {
-  props: {
-    list: Array
-  },
-  methods: {
-    goTo(url) {
-      window.open(url)
-    }
-  }
+<script setup>
+defineProps({
+  list: Array
+})
+const goTo = (url) => {
+  window.open(url)
 }
 </script>
 

@@ -18,41 +18,36 @@
   <div class="block" />
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-export default {
-  props: {
-    name: {
-      type: String,
-      default: ''
-    },
-    back: {
-      type: String,
-      default: ''
-    },
-    noback: {
-      type: Boolean,
-      default: false
-    }
+
+const props = defineProps({
+  name: {
+    type: String,
+    default: ''
   },
-  emits: ['callback'],
-  setup(props, ctx) {
-    const isback = ref(props.noback)
-    const router = useRouter()
-    const goBack = () => {
-      if (!props.back) {
-        router.go(-1)
-      } else {
-        router.push({ path: props.back })
-      }
-      ctx.emit('callback')
-    }
-    return {
-      goBack,
-      isback
-    }
+  back: {
+    type: String,
+    default: ''
+  },
+  noback: {
+    type: Boolean,
+    default: false
   }
+})
+
+const emits = defineEmits(['callback'])
+
+const isback = ref(props.noback)
+const router = useRouter()
+const goBack = () => {
+  if (!props.back) {
+    router.go(-1)
+  } else {
+    router.push({ path: props.back })
+  }
+  emits('callback')
 }
 </script>
 
